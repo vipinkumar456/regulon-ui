@@ -1,0 +1,26 @@
+details > summary {
+  list-style: none;
+  background-color: #c5e0ec;
+  padding: 9px;
+  margin: 5px 0px;
+}
+details>summary::-webkit-details-marker {
+  display: none
+}
+summary:after {
+      /* background: red; */
+      border-radius: 5px;
+      content: "+";
+      color: #000;
+      float: left;
+      font-size: 14px;
+      font-weight: bold;
+      margin: -1px 10px 0 0px;
+      padding: 0;
+      text-align: center;
+      /* width: 20px; */
+
+}
+details[open] summary:after {
+  content: "-";
+}

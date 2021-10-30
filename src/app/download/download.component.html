@@ -1,0 +1,69 @@
+<div class="row mb-2">
+
+    <div class="col-md-3">
+        <label class="active floatLabel">Tranche Type</label>
+        <select class="browser-default custom-select labelSelect" name="tt" [(ngModel)]="tt">
+            <option value="0" selected disabled>Select Tranche Type</option>
+            <option value="1">Tranche 1</option>
+            <!-- <option value="11">Tranche 1A</option>
+            <option value="12">Tranche 1B</option>
+            <option value="13">Tranche 1C</option>
+            <option value="14">Tranche 1D</option> -->
+            <option value="2">Tranche 2</option>
+            <option value="3">Tranche 3</option>
+        </select>
+
+    </div>
+    <div class="col-md-2 float-right">
+
+        <select class="browser-default custom-select labelSelect" name="year" [(ngModel)]="year">
+            <option value="0" disabled>Select Year</option>
+            <option value="2021">2021-2022</option>
+            <option value="2020">2020-2021</option>
+            <option value="2019">2019-2020</option>
+            <option value="2018">2018-2019</option>
+            <option value="2017">2017-2018</option>
+            <option value="2016">2016-2017</option>
+        </select>
+        <label class="active floatLabel">Financial Year</label>
+
+    </div>
+    <div class="col-md-2 float-right">
+        <select class="browser-default custom-select labelSelect" id="quarter" name="quarter" [(ngModel)]="quarter">
+            <option value="0" disabled>Select Quarter</option>
+            <option value="1">Quarter #1</option>
+            <option value="2">Quarter #2</option>
+            <option value="3">Quarter #3</option>
+            <option value="4">Quarter #4</option>
+        </select>
+        <label class="active floatLabel">Quarter</label>
+
+    </div>
+    <div class="col-md-2 float-right">
+        <select class="browser-default custom-select labelSelect" id="reportType" name="reportType" [(ngModel)]="reportType">
+            <option value="0" disabled>Report Type</option>
+            <option value="cleared">Cleared</option>
+            <option value="uncleared">Uncleared</option>
+        </select>
+        <label class="active floatLabel">Report Type</label>
+
+    </div>
+    <div class="col-md-2 float-right">
+        <select class="browser-default custom-select labelSelect" id="format" name="format" [(ngModel)]="format">
+            <option value="0" disabled>Select Format</option>
+            <option value=".xlsx">EXCEL</option>
+            <!-- <option value=".csv">CSV</option>
+            <option value=".xbrl">XBRL</option>  -->
+        </select>
+        <label class="active floatLabel">Format</label>
+
+    </div>
+    <!-- <div class="col-md-2 float-right">
+        <input type="text" [(ngModel)]="dct" name="dct" class="form-control mt-2" placeholder="Search By Dct">
+        <label class="active floatLabel">Dct Number</label>
+
+    </div> -->
+    <div class="col-md-1 float-right">
+        <button (click)="getAll()" style="padding: 5px 10px !important;" [disabled]="tt==0" class="btn btn-primary mt-2 btn-obc">Download</button>
+    </div>
+</div>

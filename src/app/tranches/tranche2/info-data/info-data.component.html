@@ -1,0 +1,325 @@
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control searchBox" placeholder="Search" autocomplete="search">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="searchItems()">
+                <option value="" disabled>Please select</option>
+                <option value="department">Department</option>
+                <option value="description">DCT Description</option>
+            </select>
+            <div class="input-group-prepend" style="cursor: pointer;" (click)="searchItems()">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div>
+    </div>
+</div> -->
+<table class="table trancheTable tranche2Table z-depth-1" mdbTable #tableEl2="mdbTable" stickyHeader="true" hover="true" *ngIf="tt!=3" striped="true">
+    <!-- <thead class="sticky-top blue">
+        <tr>
+           
+            <ng-container *ngFor="let head of headElements; let i = index">
+                <th class="cursor-pointer" *ngIf="tt==head.tt||head.tt==0" [mdbTableSort]="data" [sortBy]="head.name" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.name=='file'||head.name=='dctNumber' ||head.name=='currentOwner'? '120px' : '' }">{{head.title}}
+                    <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                    </mdb-icon>
+                </th>
+            </ng-container>
+        </tr>
+    </thead> -->
+    <thead>
+        <tr>
+            <th colspan="4">Tranche II FY:{{year}},QT:{{quarter}}</th>
+            <th colspan="4">Remarks 1</th>
+            <th>Remarks 2</th>
+            <th>Remarks 3</th>
+            <th rowspan="2">Docs</th>
+        </tr>
+        <tr style="font-size: 12px !important;">
+            <th style="width: 100px;">
+                Risk
+            </th>
+            <th style="width: 85px;">
+                Param No
+            </th>
+            <th>
+                Owner
+            </th>
+            <th>
+                Control Parameter
+            </th>
+            <th title="Control Objective">Control Objective</th>
+            <th title="Control Document">Control Document</th>
+            <th title="Type Of Control">Type Of Control</th>
+            <th title="Control Design And Assessment">Control Design And Assessment</th>
+            <th title=" Review and Exceptions ">Review and Exceptions</th>
+            <th title="Change in controls ">Change in controls</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr>
+                <ng-container>
+                    <!-- <td scope="row">
+                        <input type="checkbox" attr.name="checked+{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                    </td> -->
+                    <td scope="row" [title]="itm.riskType">{{itm.riskType}}</td>
+                    <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                    <td scope="row" [title]="itm.currentOwner">{{itm.currentOwner}}</td>
+                    <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                    <td scope="row" [title]="itm.remark1ControlObjective">{{itm.remark1ControlObjective}}</td>
+                    <td scope="row" [title]="itm.remark1ControlDocument">{{itm.remark1ControlDocument}}</td>
+                    <td scope="row" [title]="itm.remark1TypeOfControl">{{itm.remark1TypeOfControl}}</td>
+                    <td scope="row" [title]="itm.remark1ControlDesignAssement">{{itm.remark1ControlDesignAssement}}</td>
+                    <td scope="row" [title]="itm.remark2">{{itm.remark2}}</td>
+                    <td scope="row" [title]="itm.remark3">
+                        {{itm.remark3}}
+                    </td>
+                    <!-- <td scope="row">
+                        {{itm.currentOwner}}
+                    </td>
+                    <td [title]="itm.comments">
+                        {{itm.comments}}
+                    </td> -->
+                    <td scope="row">
+                        <i class="fa fa-download text-success pointer" *ngIf="itm.fileName" [title]="itm.fileName" (click)="download(itm)"></i>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="16" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                        <!-- <li class="ng-star-inserted">
+                            Page {{activePage+1}} of {{pager.totalPages}}
+                        </li> -->
+                        <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pages;let i=index;">
+                            <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                    <div class="col-md-6 p-0">
+                        <select [(ngModel)]="size" class="custom-select" (change)="activePage=0;getInfoAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <!-- <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="9">
+                <mdb-table-pagination [tableEl]="tableEl2" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination>
+            </td>
+        </tr>
+    </tfoot> -->
+</table>
+<table class="table trancheTable tableFixed z-depth-1" stickyHeader="true" hover="true" striped="true" *ngIf="tt==3">
+    <thead class="sticky-top blue">
+
+        <tr>
+            <!-- <th class="bg-tb-head" style="width: 25px;" rowspan="2">
+                <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+            </th> -->
+            <th colspan="3">Tranche III, FY:{{year}},Qt:{{quarter}}</th>
+            <th colspan="5">CONTROL ENVIRONMENT</th>
+            <th colspan="4">AUDIT ASSESSEMENT</th>
+            <th colspan="4">COMPLANCE ASSESSEMENT</th>
+            <th rowspan="2">Docs</th>
+        </tr>
+        <tr style="font-size: 12px !important;">
+            <th>Param No</th>
+            <th>Owner</th>
+            <th>Control Param</th>
+            <th title="Control Type">Control Type</th>
+            <th title="Date of Last Review of Control">Date of Last Review</th>
+            <th title="Control Policy">Control Policy</th>
+            <th title="Process">Process</th>
+            <th title="Review Mechanism">Review Mechanism</th>
+            <th title="Type of Check">Type of Check</th>
+            <th title="Sampling Methdology">Sampling Methdology</th>
+            <th title="Number of samples checked">Number of samples checked</th>
+            <th title="Audit Conclusion">Audit Conclusion</th>
+            <th title="Sampling Methdology">Sampling Methdology</th>
+            <th title="Number of samples checked">Number of samples checked</th>
+            <th title="Observation">Observation</th>
+            <th title="Compliance Conclusion">Compliance Conclusion</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr>
+                <ng-container>
+                    <!-- <td scope="row">
+                        <input type="checkbox" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                    </td> -->
+
+                    <td scope="row" [title]="itm.dctNumber"><a class="text-primary" (click)="editTranche3(itm)">{{itm.dctNumber}}</a></td>
+                    <td scope="row" [title]="itm.currentOwner">{{itm.currentOwner}}</td>
+                    <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+
+                    <td scope="row" [title]="itm.controlType">
+                        <!-- <input type="text" name="controlType{{i}}" #controlType="ngModel" [(ngModel)]="itm.controlType"> -->
+                        {{itm.controlType}}
+                    </td>
+                    <td scope="row" [title]="itm.dateOfLastReviewControl">
+                        <!-- <input type="date" name="dateOfLastReviewControl{{i}}" #dateOfLastReviewControl="ngModel" [(ngModel)]="itm.dateOfLastReviewControl"> -->
+                        {{itm.dateOfLastReviewControl}}
+                    </td>
+                    <td [title]="itm.controlDescriptonPolicy">
+                        {{itm.controlDescriptonPolicy}}
+                    </td>
+                    <td [title]="itm.controlDescriptonProcess">
+                        {{itm.controlDescriptonProcess}}
+                    </td>
+                    <td [title]="itm.controlDescriptonReviewMachanism">
+                        {{itm.controlDescriptonReviewMachanism}}
+                    </td>
+                    <td scope="row" [title]="itm.typeOfCheck">
+                        <!-- <input type="text" name="typeOfCheck{{i}}" #typeOfCheck="ngModel" [(ngModel)]="itm.typeOfCheck"> -->
+                        {{itm.typeOfCheck}}
+                    </td>
+                    <td [title]="itm.auditSamplingMethodology">
+                        <!-- <textarea name="auditSamplingMethodology{{i}}" #auditSamplingMethodology="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.auditSamplingMethodology" rows="1"></textarea> -->
+                        {{itm.auditSamplingMethodology}}
+                    </td>
+                    <td scope="row" [title]="itm.auditNoOfSamplesChecked">
+                        <!-- <input type="text" name="auditNoOfSamplesChecked{{i}}" #auditNoOfSamplesChecked="ngModel" [(ngModel)]="itm.auditNoOfSamplesChecked"> -->
+                        {{itm.auditNoOfSamplesChecked}}
+                    </td>
+                    <td scope="row" [title]="itm.auditConclusion">
+                        {{itm.auditConclusion}}
+                        <!-- <input type="text" name="auditConclusion{{i}}" #auditConclusion="ngModel" [(ngModel)]="itm.auditConclusion"> -->
+                    </td>
+
+                    <td [title]="itm.complianceSamplingMethodology">
+                        <!-- <textarea name="complianceSamplingMethodology{{i}}" #complianceSamplingMethodology="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.complianceSamplingMethodology" rows="1"></textarea> -->
+                        {{itm.complianceSamplingMethodology}}
+                    </td>
+                    <td scope="row" [title]="itm.complianceNoOfSamplesChecked">
+                        <!-- <input type="text" name="complianceNoOfSamplesChecked{{i}}" #complianceNoOfSamplesChecked="ngModel" [(ngModel)]="itm.complianceNoOfSamplesChecked"> -->
+                        {{itm.complianceNoOfSamplesChecked}}
+                    </td>
+                    <td [title]="itm.complianceObservation">
+                        <!-- <textarea name="complianceObservation{{i}}" #complianceObservation="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.complianceObservation" rows="1"></textarea> -->
+                        {{itm.complianceObservation}}
+                    </td>
+                    <td scope="row" [title]="itm.complianceConclusion">
+                        <!-- <input type="text" name="complianceConclusion{{i}}" #complianceConclusion="ngModel" [(ngModel)]="itm.complianceConclusion"> -->
+                        {{itm.complianceConclusion}}
+                    </td>
+                    <!-- <td [title]="itm.currentOwner">
+
+                        {{itm.currentOwner}}
+                    </td>
+                    <td [title]="itm.comments">
+                        {{itm.comments}}
+                    </td> -->
+                    <td scope="row">
+                        <!-- <i class="text-primary fa fa-upload" title="Upload Document" (click)="selectFiles(itm)"></i> -->
+                        <i class="fa fa-download text-success pointer" *ngIf="itm.fileName" [title]="itm.fileName" (click)="download(itm)"></i>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="17" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                        <!-- <li class="ng-star-inserted">
+                            Page {{activePage+1}} of {{pager.totalPages}}
+                        </li> -->
+                        <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pages;let i=index;">
+                            <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                    <div class="col-md-6 p-0">
+                        <select [(ngModel)]="size" class="custom-select" (change)="activePage=0;getInfoAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<!-- <div class="row">
+    <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-success btn-obc">Submit For Approval</button>
+    </div>
+</div> -->

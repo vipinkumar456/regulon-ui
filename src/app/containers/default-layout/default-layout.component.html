@@ -1,0 +1,53 @@
+<app-header class="header1" [navbarBrandRouterLink]="['/home']" [fixed]="true" [navbarBrandFull]="{src: 'assets/img/logos/Picture1.jpg', height: 40, alt: 'DGRegulon'}" [navbarBrandMinimized]="{src: 'assets/img/logos/Picture1.jpg', height: 45, alt: 'DGRegulon'}"
+    [sidebarToggler]="'lg'" [asideMenuToggler]="'lg'">
+    <a routerLink="/home" style="position: absolute;" class="logo-white">
+        <!-- <h3 class="m-0 pl-4 navReg">Regulon</h3> -->
+        <img src="./assets/img/logo-white.png" height="45">
+    </a>
+    <ul class="text-center m-auto text-white">
+        <!-- <h3 class="m-0">Risk Based Supervision</h3> -->
+    </ul>
+    <ul class="nav navbar-nav ml-0" style="height: 100%;">
+
+        <li class="nav-item dropdown userDrop text-right mt-2" style="width: 200px;height: 100%;" dropdown placement="bottom right">
+            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" (click)="false" style="text-transform: lowercase;">
+                <span class="user-name">{{user?.userName}}</span> <i class="icon-user"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="right: 5px;">
+                <div class="dropdown-header text-center"><strong>Account</strong></div>
+                <!-- <div class="row" id="main">
+                    <div class="col-md-12 text-center">
+                        <div>
+                            <img src="assets/img/avatars/user.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
+                            <h2 style="text-transform: lowercase;">{{user?.userName}}</h2>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="divider"></div>
+                <a class="dropdown-item" *ngIf="!isAdmin"><i class="fa fa-shield"></i> Lock account</a>
+                <a class="dropdown-item" (click)="logout()"><i class="fa fa-lock"></i> Logout</a>
+            </div>
+        </li>
+    </ul>
+</app-header>
+<div class="app-body">
+    <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+      <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+      <app-sidebar-minimizer></app-sidebar-minimizer>
+    </app-sidebar>
+    <!-- Main content -->
+    <main class="main">
+        <!-- <cui-breadcrumb>
+        </cui-breadcrumb> -->
+        <div class="container-fluid">
+            <div class="card" style="    min-height: calc(100vh - 183px);">
+                <div class="card-body">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- <app-footer>
+
+</app-footer> -->

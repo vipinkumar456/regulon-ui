@@ -1,0 +1,90 @@
+<div class="dashboard">
+<h2>Risk Based Supervision</h2>
+<tabset>
+    <tab heading="Tranche 1">
+        <div class="row tranche-head" >
+            <div class="col" *ngFor="let col of cols; let i = index">
+                {{col.header}} <i class="icon-sort" *ngIf="col.sort"></i>
+            </div>
+        </div>
+       
+        <div class="tranche-section"  *ngFor="let itm of tranche1Data; let i = index">
+            <div class="row trache-row">
+                <div class="col" style="text-align: left;"><span class="name">{{itm.tracheType}}</span></div>
+                <div class="col">{{itm.myTask}}</div>
+                <div class="col"><a (click)="goto(itm,'pending')">{{itm.todoCount}}</a></div>
+                <div class="col"><a (click)="goto(itm,'rejected')">{{itm.rejectedCount}}</a></div>
+                <div class="col"><a (click)="rowToggle(itm)">{{itm.submittedCount}}</a></div>
+            </div>
+            <div class="submitted-data" *ngIf="itm.showdetail">
+                <ul>
+                  <li *ngFor="let item of itm.submittedData">
+                
+                      <a (click)="goto(itm,'submitted')">
+                        <span *ngFor="let it of item">{{it}}</span>
+                      </a>
+                  </li>
+                  <li><button class="btn" (click)="goto(itm,'submitted')">View All</button></li>
+                </ul>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Tranche 2">
+        <div class="row tranche-head">
+            <div class="col" *ngFor="let col of cols; let i = index">
+                {{col.header}} <i class="icon-sort" *ngIf="col.sort"></i>
+            </div>
+        </div>
+        <div class="tranche-section" *ngFor="let itm of tranche2Data; let i = index">
+            <div class="row trache-row">
+              <div class="col"><span class="name">{{itm.tracheType}}</span></div>
+              <div class="col">700</div>
+              <div class="col"><a (click)="goto(itm,'pending')">342</a></div>
+              <div class="col"><a (click)="goto(itm,'rejected')">4</a></div>
+              <div class="col"><a (click)="rowToggle(itm)">342</a></div>
+                <!-- <div class="col">
+                    <a (click)="gotoTrache(itm)"><i class="icon-options"></i></a>
+                </div> -->
+            </div>
+            <div class="submitted-data" *ngIf="itm.showdetail">
+                <ul>
+                  <li *ngFor="let subDt of itm.submittedData">
+                      <span>{{subDt.value}}</span>
+                      {{subDt.label}}
+                  </li>
+                  <li><button class="btn" (click)="subSum(itm)">View All</button></li>
+                </ul>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Tranche 3">
+        <div class="row tranche-head">
+            <div class="col" *ngFor="let col of cols; let i = index">
+                {{col.header}} <i class="icon-sort" *ngIf="col.sort"></i>
+            </div>
+        </div>
+        <div class="tranche-section" *ngFor="let itm of tranche3Data; let i = index">
+            <div class="row trache-row">
+              <div class="col"><span class="name">{{itm.tracheType}}</span></div>
+              <div class="col">700</div>
+              <div class="col"><a (click)="goto(itm,'pending')">342</a></div>
+              <div class="col"><a (click)="goto(itm,'rejected')">4</a></div>
+              <div class="col"><a (click)="rowToggle(itm)">342</a></div>
+                <!-- <div class="col">
+                    <a (click)="gotoTrache(itm)"><i class="icon-options"></i></a>
+                </div> -->
+            </div>
+          
+            <div class="submitted-data" *ngIf="itm.showdetail">
+                <ul>
+                  <li *ngFor="let subDt of itm.submittedData">
+                      <span>{{subDt.value}}</span>
+                      {{subDt.label}}
+                  </li>
+                  <li><button class="btn" (click)="subSum(itm)">View All</button></li>
+                </ul>
+            </div>
+        </div>
+    </tab>
+</tabset>
+</div>

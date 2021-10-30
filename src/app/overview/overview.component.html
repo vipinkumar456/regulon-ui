@@ -1,0 +1,102 @@
+<div class="guidelinesContainer">
+    <h5>The department of banking supervision at Reserve Bank of India (RBI) have adopted Risk Based Supervision (RBS) approach for review of supervisory process of commercial banks in India. RBI’s revised supervisory approach is called as Supervisor Program
+        for Assessment of Risk & Capital (SPARC), which has been rolled out in 2013-14 supervisory cycle. SPARC assists RBI to apply differentiated supervision to banks based on the individual risk profile. Under SPARC RBI evaluate each bank on two aspects
+        i.e. risk faced by bank & capital position of the bank.</h5>
+    <div class="text-center">
+        <!-- <img src="assets/img/overview.png" class="m-auto" style="width: 50%;"> -->
+
+    </div>
+    <!-- <ul class="guidelines">
+        <li></li>
+    </ul> -->
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne" (click)="first=!first;second=false;third=false;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Data
+              </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" *ngIf="first" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <p>Banks are expected to provide thousands of data points through regulatory returns at multiple frequencies. The requirements are expected to change dynamically based on emerging risks in the industry. Data collected by the supervisor
+                        covers both qualitative and quantitative data and is broadly expected to cover the following aspects:</p>
+
+                    <ul class="guidelines">
+                        <li>Credit risk</li>
+                        <li>Market risk</li>
+                        <li>Operational risk</li>
+                        <li>Liquidity risk</li>
+                        <li>Pillar II risks</li>
+                        <li>Information technology</li>
+                        <li>Compliance</li>
+                        <li>Internal audit</li>
+                        <li>Management and Board</li>
+                    </ul>
+                    <p>The supervisor has identified inherent risks applicable to all banks. The data collected will form the basis for computing risk indicators against the inherent risks identified. Accordingly, the accuracy, completeness and timeliness
+                        of data are critical for the determination of rating by the supervisor.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo" (click)="first=false;second=!second;third=false;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Risk Management
+              </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse show" *ngIf="second" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <p>Assessment of existing controls for inherent risks, available capital, ability to raise capital, earnings growth to augment capital and compliance form the basis for determining the probability of failure. It is important for the bank
+                        to demonstrate to the supervisor that controls are in place to address inherent risks. The ability of the bank to demonstrate that inherent risks are controlled appropriately as well as the ability to demonstrate an appropriate
+                        scoring on the risk indicators will have an impact on the determination of the probability of failure. Further, qualitative aspects will be assessed by the extent to which the compliance and internal audit functions provide assurance
+                        to the supervisory staff. It is expected that as the supervisory focus moves away from transaction and compliance testing, the bank will augment its transaction testing through concurrent/ internal audit and compliance testing.
+                        Availability of excess capital judged by existing excess capital, earnings growth and access to capital raising sources forms a key part of the decision on probability of failure.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree" (click)="first=false;second=false;third=!third;">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Control Framework
+              </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse show" *ngIf="third" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    <p>
+                        Risk Based Supervision system application, bank will be able to improve the operational efficiency of regulatory reporting of RBS Tranche-I. The system will be able to utilize the power of information to create strong differentiators for business.
+                    </p>
+                    <p>
+                        RBS application will have multiple user groups which are:
+                    </p>
+                    <ul style="list-style: decimal;">
+                        <li>Maker</li>
+                        <li>Checker</li>
+                        <li>Approving authority of department</li>
+                        <!-- <li>Maker – checker within RBS department</li> -->
+                        <li>Approving authority of RBS department</li>
+
+                    </ul>
+                    <h5>Below is the workflow mechanism</h5>
+                    <ul style="list-style: decimal;">
+                        <li>For each user group read/ write/ modify access will be provided based on the expected actions from users.</li>
+                        <li>User from Maker & Checker user group will have read & write access to the DCT’s which are prepared / validated by them.</li>
+                        <li>Single Checker can have multiple makers. However, for each DCT there will be unique maker & single checker.</li>
+                        <li>Approving authority of department will have read only access to the datapoints with a provision to comment in case a clarification is required. </li>
+                        <li>Make – checker within RBS department will have the read only access to all DCT’s. In case of any clarification or observations they will have provision to reject the DCT for resubmission.</li>
+                        <li>RBS application will also have provision to collect automatically computed DCT’s based on computation logic defined in the system. These automatically computed quantitative DCT’s will be collected alongwith qualitative DCT’s submitted
+                            through maker – checker process for onward submission to approving authority of department. </li>
+                        <li>There will be timely alert/ reminders factored in the application for all user groups & workflows to ensure timely RBS Tranche – I submission to RBI.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 id="dialog-sizes-name2" class="modal-title pull-left">Add User</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="form" id="form" (ngSubmit)="f.form.valid && submitQuarter(f.form)" #f="ngForm" novalidate>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="usename" class="m-0">User Name</label>
+                        <input type="text" name="username" id="username" value="" autocomplete="new-password" class="form-control input-lg" autocomplete="I told you I wanted this off, Google. But you would not listen." (input)="userIn($event.target.value)" [(ngModel)]="user.username"
+                            placeholder="Username" #username="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && username.invalid }">
+                        <input id="username" style="display:none" autocomplete="new-password" type="text" name="fakeusernameremembered">
+                        <input id="password" autocomplete="new-password" style="display:none" type="password" name="fakepasswordremembered">
+
+
+                        <div *ngIf="f.submitted && username.invalid" class="invalid-feedback">
+                            <div *ngIf="username.errors.required">User Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="usename" class="m-0">Password</label>
+                        <input type="password" name="password" id="password" class="form-control input-lg" [(ngModel)]="user.password" placeholder="Password" #password="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{7,}$">
+                        <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+                            <div *ngIf="password.errors.required">Password is required</div>
+                            <div *ngIf="password.errors.pattern">Password should be minimum 7 characters long & Must have a number, alpahabet, special character. </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row mb-4">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" name="enabled" type="checkbox" value="true" id="checkbox1" [(ngModel)]="user.enabled">
+                        <label class="form-check-label" for="checkbox1">
+                              Enabled
+                        </label>
+                    </div>
+                </div>
+                <!-- <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" name="accountNonExpired" type="checkbox" value="true" id="accountNonExpired" [(ngModel)]="user.accountNonExpired">
+                        <label class="form-check-label" for="accountNonExpired">
+                            Account Non Expired
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" name="accountNonLocked" type="checkbox" value="true" id="accountNonLocked" [(ngModel)]="user.accountNonLocked">
+                        <label class="form-check-label" for="accountNonLocked">
+                            Account Non Locked
+                        </label>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <label> Select User Roles</label>
+                    <div class="form-group row">
+
+                        <label *ngFor="let role of userRoles; let i = index" class="d-print-inline-block col-md-4 form-control border-0" [ngClass]="{ 'is-invalid': f.submitted && user.authorities.length==0 }">
+                            <input type="checkbox" value="role" name="authorities"  (change)="onCheckboxChange(role,$event)">
+                            {{role.name}}
+                          </label>
+                        <div *ngIf="f.submitted && user.authorities.length==0" class="invalid-feedback col-md-12">
+                            <div>Atleast one user role is required</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer text-right">
+        <button type="submit" class="btn btn-primary mr-2" form="form">Save</button>
+        <button type="submit" class="btn btn-danger" (click)="bsModalRef.hide()">Cancel</button>
+
+    </div>
+</div>

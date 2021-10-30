@@ -1,0 +1,159 @@
+<div class="row">
+    <div class="col-md-10">
+        <!-- <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control" placeholder="Search" autocomplete="search" (input)="searchItems()">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="searchItems()">
+                <option value="" disabled>Please select</option>
+                <option value="number">DCT Number</option>
+                <option value="tranchetype">Tranche Type</option>
+                <option value="riskType">Risk Type</option>
+                <option value="department">Department</option>
+                
+            </select>
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div> -->
+    </div>
+    <div class="col-md-2 mb-2 float-right">
+        <button class="btn btn-block btn-primary btn-obc" type="button" (click)="addWorkFlow()">Add DCT</button>
+
+    </div>
+</div>
+<table class="table trancheTable z-depth-1" mdbTable #tableEl="mdbTable" stickyHeader="true" hover="true" striped="true">
+    <thead class="sticky-top blue">
+        <tr>
+            <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" (click)="sortBy(head)" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.name=='dctNumber'||head.name=='trancheType'||head.name=='department'||head.name=='dataUnit'||head.name=='action' ? '200px' : '' }">{{head.title}}
+                <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                </mdb-icon>
+            </th>
+            <th class="cursor-pointer" style="width: 120px;">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody #row>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr mdbTableCol>
+                <ng-container>
+                    <td scope="row">
+                        {{itm.dctNumber}}
+                    </td>
+                    <td scope="row" [title]="itm.riskType">
+                        {{itm.riskType}}
+                    </td>
+                    <td scope="row" [title]="itm.department">
+                        {{itm.department}}
+                    </td>
+                    <td scope="row" [title]="itm.trancheType">
+                        {{itm.trancheType}}
+                    </td>
+
+                    <td scope="row" [title]="itm.dataUnit">
+                        {{itm.dataUnit}}
+                    </td>
+                    <td scope="row" [title]="itm.dctDescription">
+                        {{itm.dctDescription}}
+                    </td>
+                    <td scope="row">
+                        <i class="icon-pencil text-info cursor-pointer" (click)="edit(itm)"></i>
+                        <!-- <i class="icon-trash ml-2 text-danger" (click)="delete(itm)"></i> -->
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="7" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                        <!-- <li class="ng-star-inserted">
+                            Page {{activePage+1}} of {{pager.totalPages}}
+                        </li> -->
+                        <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pages;let i=index;">
+                            <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                    <div class="col-md-6 p-0">
+                        <select [(ngModel)]="size" class="custom-select" (change)="activePage=0;getDctsAll()">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+
+
+                <!-- <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p" ng-reflect-ng-class="[object Object]">
+
+                        <li class="ng-star-inserted">
+                            1 - 10 of {{paging.totalElements}}
+                        </li>
+
+                        <li class="page-item disabled" ng-reflect-klass="page-item" (click)="first()">
+                            <a aria-label="Previous" class="page-link" >
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item disabled" ng-reflect-klass="page-item" ng-reflect-ng-class="[object Object]">
+                            <a aria-label="Previous" class="page-link" >
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" ng-reflect-klass="page-item" ng-reflect-ng-class="[object Object]">
+                            <a aria-label="Previous" class="page-link" >
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" ng-reflect-klass="page-item" ng-reflect-ng-class="[object Object]">
+                            <a aria-label="Next" class="page-link" >
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav> -->
+                <!-- <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination> -->
+            </td>
+        </tr>
+    </tfoot>
+</table>

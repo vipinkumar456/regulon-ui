@@ -1,0 +1,345 @@
+<form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="form-col-form-label" for="workflow">Work Flow Name</label>
+                <input type="text" class="form-control" name="name" id="workflow" placeholder="Work Flow Name" [(ngModel)]="workFlow.name" #name="ngModel" required [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+                    <div *ngIf="name.errors.required">Work Flow Name is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="form-col-form-label" for="description">Description</label>
+                <textarea rows="2" class="form-control" name="description" [(ngModel)]="workFlow.description"></textarea>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row p-0 m-0">
+                <div class="col-md-2 pl-0">
+                    <h3 class="text-obc">
+                        DCTs
+                    </h3>
+                </div>
+                <div class="col-md-2-5 pl-0 pr-1">
+                    <select class="form-control" name="trancheType" [(ngModel)]="dctList.tranche" (change)="trancheTypeChange()">
+                        <option value="all">Tranche Type All</option>
+                        <option *ngFor="let tranche of trancheTypes" [value]="tranche">{{tranche}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 pl-0 pr-1">
+                    <select class="form-control" name="dept" [(ngModel)]="dctList.dept">
+                        <option value="all">DCT Department All</option>
+                        <option *ngFor="let dct of dctDepts" [value]="dct">{{dct}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2-5 pl-0 pr-1" *ngIf="isRiksType">
+                    <select class="form-control" name="dept" [(ngModel)]="dctList.riskType">
+                        <option value="all">Risk Types All</option>
+                        <option *ngFor="let riskType of riskTypes" [value]="riskType">{{riskType}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 pl-0 pr-0">
+                    <button type="button" style="margin: 0;" class="btn btn-primary btn-obc btn-block" (click)="mappedPager.activePage=0;unMappedPager.activePage=0;getUnDct=true;getDcts()">Search</button>
+                </div>
+            </div>
+            <tabset>
+                <tab heading="Un Mapped">
+                    <table class="table trancheTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input class="" type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+                                </th>
+                                <th>DCT#</th>
+                                <th>Risk Type</th>
+                                <th>Department</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let dct of unMappedDcts;let i=index">
+                                <td [title]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'This DCT is assigned to another WorkFlow'">
+
+                                    <input class="" type="checkbox" name="radios+{{i}}" attr.id="dct+{{i}}" [title]="!dct.checked?check(dct):''" [checked]="dct.checked" (change)="checkDct($event,dct)"></td>
+                                <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'">{{dct.dctNumber}}</td>
+                                <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'" [title]="dct.riskType">{{dct.riskType}}</td>
+                                <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'" [title]="dct.department">{{dct.department}}</td>
+                                <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'" [title]="dct.dctDescription">{{dct.dctDescription}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="grey lighten-5 w-100">
+                            <tr>
+                                <td colspan="6" style="position: relative;">
+                                    <nav>
+                                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+
+                                            <li (click)="setUnMappedPage(0)" class="page-item" [ngClass]="{disabled:unMappedPager.activePage === 0}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="page-item" (click)="setUnMappedPage(unMappedPager.activePage - 1)" [ngClass]="{disabled:unMappedPager.activePage === 0}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">‹</span>
+                                                </a>
+                                            </li>
+                                            <ng-container *ngFor="let page of unMappedPager.pages;let i=index;">
+                                                <li class="page-item" *ngIf="i<unMappedPager.activePage+3&&i>unMappedPager.activePage-3">
+                                                    <a class="page-link" [ngClass]="unMappedPager.activePage==i?'active':''" (click)="setUnMappedPage(i)">{{i+1}}</a>
+                                                </li>
+                                            </ng-container>
+                                            <li class="page-item" (click)="setUnMappedPage(unMappedPager.activePage + 1)" [ngClass]="{disabled:unMappedPager.activePage === unMappedPager.totalPages-1}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">›</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li class="page-item" (click)="setUnMappedPage(unMappedPager.totalPages-1)" [ngClass]="{disabled:unMappedPager.activePage === unMappedPager.totalPages-1}">
+                                                <a aria-label="Next" class="page-link">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div class="m-0 row pagesize">
+                                        <label class="col-md-5 mt-2 p-0 col-form-label" for="select3">Size</label>
+                                        <div class="col-md-7 p-0">
+                                            <select [(ngModel)]="unMappedPager.size" name="size" class="custom-select" (change)="unMappedPager.activePage=0;getUnmapped()">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                        </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </tab>
+                <tab heading="Mapped">
+                    <table class="table trancheTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>DCT#</th>
+                                <th>Risk Type</th>
+                                <th>Department</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let dct of mappedDcts;let i=index">
+                                <td>
+                                    <i *ngIf="dct.workflowID!=workFlow.workflowID&&dct.workflowID" class="fa fa-info text-info"></i>
+                                    <input class="" type="checkbox" *ngIf="dct.workflowID==workFlow.workflowID||!dct.workflowID" name="radios+{{i}}" attr.id="dct+{{i}}" [title]="!dct.checked?check(dct):''" [checked]="dct.checked" (change)="checkDct($event,dct)">
+                                </td>
+                                <td>{{dct.dctNumber}}</td>
+
+                                <td>{{dct.riskType}}</td>
+                                <td>{{dct.department}}</td>
+                                <td [title]="dct.dctDescription">{{dct.dctDescription}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="grey lighten-5 w-100">
+                            <tr>
+                                <td colspan="6" style="position: relative;">
+                                    <nav>
+                                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+
+                                            <li (click)="setMappedPage(0)" class="page-item" [ngClass]="{disabled:mappedPager.activePage === 0}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+
+                                            <li class="page-item" (click)="setMappedPage(mappedPager.activePage - 1)" [ngClass]="{disabled:mappedPager.activePage === 0}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">‹</span>
+                                                </a>
+                                            </li>
+                                            <ng-container *ngFor="let page of mappedPager.pages;let i=index;">
+                                                <li class="page-item" *ngIf="i<mappedPager.activePage+3&&i>mappedPager.activePage-3">
+                                                    <a class="page-link" [ngClass]="mappedPager.activePage==i?'active':''" (click)="setMappedPage(i)">{{i+1}}</a>
+                                                </li>
+                                            </ng-container>
+                                            <li class="page-item" (click)="setMappedPage(mappedPager.activePage + 1)" [ngClass]="{disabled:mappedPager.activePage === mappedPager.totalPages-1}">
+                                                <a aria-label="Previous" class="page-link">
+                                                    <span aria-hidden="true">›</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li class="page-item" (click)="setMappedPage(mappedPager.totalPages-1)" [ngClass]="{disabled:mappedPager.activePage === mappedPager.totalPages-1}">
+                                                <a aria-label="Next" class="page-link">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div class="m-0 row pagesize">
+                                        <label class="col-md-5 mt-2 p-0 col-form-label" for="select3">Size</label>
+                                        <div class="col-md-7 p-0">
+                                            <select [(ngModel)]="mappedPager.size" name="mappedPager.size" class="custom-select" (change)="mappedPager.activePage=0;getMapped()">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="250">250</option>
+                                            <option value="500">500</option>
+                                            <option value="1000">1000</option>
+                                        </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </tab>
+            </tabset>
+            <!-- <table class="table trancheTable">
+                <thead>
+                    <tr>
+                        <th>
+                            <input class="" type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+                        </th>
+                        <th>DCT#</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let dct of dcts;let i=index">
+                        <td [title]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'This DCT is assigned to another WorkFlow'">
+                            <i *ngIf="dct.workflowID!=workFlow.workflowID&&dct.workflowID" class="fa fa-info text-info"></i>
+                            <input class="" type="checkbox" *ngIf="dct.workflowID==workFlow.workflowID||!dct.workflowID" name="radios+{{i}}" attr.id="dct+{{i}}" [title]="!dct.checked?check(dct):''" [checked]="dct.checked" (change)="checkDct($event,dct)"></td>
+                        <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'">{{dct.dctNumber}}</td>
+                        <td [ngClass]="dct.workflowID==workFlow.workflowID||!dct.workflowID?'':'tdDisabled'">{{dct.dctDescription}}</td>
+                    </tr>
+                </tbody>
+                <tfoot class="grey lighten-5 w-100">
+                    <tr>
+                        <td colspan="6" style="position: relative;">
+                            <nav>
+                                <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+
+                                    <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                                        <a aria-label="Previous" class="page-link">
+                                            <span aria-hidden="true">«</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                                        <a aria-label="Previous" class="page-link">
+                                            <span aria-hidden="true">‹</span>
+                                        </a>
+                                    </li>
+                                    <ng-container *ngFor="let page of pages;let i=index;">
+                                        <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                            <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                                        </li>
+                                    </ng-container>
+                                    <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                        <a aria-label="Previous" class="page-link">
+                                            <span aria-hidden="true">›</span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                        <a aria-label="Next" class="page-link">
+                                            <span aria-hidden="true">»</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="m-0 row pagesize">
+                                <label class="col-md-5 mt-2 p-0 col-form-label" for="select3">Size</label>
+                                <div class="col-md-7 p-0">
+                                    <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getDcts()">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="250">250</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tfoot>
+            </table> -->
+
+        </div>
+        <div class="col-md-5">
+            <h3 class="text-obc">
+                Users
+            </h3>
+            <table class="table trancheTable">
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Users</th>
+                        <th style="padding: 4px !important;"> <button style="margin: 0;min-width: 35px; 
+                            height: 27px !important;" class="btn btn-danger float-right" type="submit" (click)="addLevel(f.form.valid)"><i class="fa fa-plus float-right"></i></button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let level of levels;let i=index;">
+                        <td>
+                            Level {{level.level}}
+                            <!-- <input type="text" class="form-control " attr.id="workflow+{{i}}" placeholder="Work Flow Name" [(ngModel)]="level.level"> -->
+                        </td>
+                        <td>
+                            <select attr.id="levelUser{{i}}" name="levelUser{{i}}" required #levelUser="ngModel" class="form-control" [(ngModel)]="level.userName" [ngClass]="{ 'is-invalid': f.submitted && levelUser.invalid }">
+                                <option value="">Select User</option>
+                                <option *ngFor="let user of users" [value]="user.userName" >{{user.userName}}</option>                                
+                            </select>
+                            <!-- <small *ngIf="lvlf.submitted && levelUser.invalid" class="col-md-12 text-danger">
+                                <div>Select User</div>
+                            </small> -->
+                        </td>
+                        <td>
+                            <i class="fa fa-trash ml-2 mt-1 text-danger float-right" *ngIf="i==levels.length-1" (click)="deleteLevel()"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <ul style="padding: 0;">
+            <li style="list-style: none;text-transform: capitalize;" *ngFor="let user of users">
+                <h5>{{user.name}} <i class="fa fa-plus" style="float: right;" (click)="addLevel(user)"></i></h5>
+                <ng-container *ngIf="user.levels">
+                    <div class="form-group" style="display: flex;">
+                        
+                        <i class="fa fa-trash fa-2x ml-2 mt-1 text-danger" ></i>
+                    </div>
+                </ng-container>
+            </li>
+        </ul> -->
+        </div>
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-primary mr-2">Save</button>
+            <button type="button" class="btn btn-danger " (click)="cancel()">Back</button>
+
+        </div>
+    </div>
+</form>

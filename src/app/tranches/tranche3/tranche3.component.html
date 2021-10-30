@@ -1,0 +1,89 @@
+ <div class="page-title">
+  <h3 class=" d-inline">Tranche: {{tranche}} </h3>
+  <p class="d-inline">( Quarter : {{quarter}}, Financial Year : {{year}})</p>
+</div>
+
+<div class="filter-container">
+  <div class="row">
+    <div class="col-md-4 filter">
+      <p>Filter By :
+      </p>
+      <select class="browser-default custom-select statusSelect float-left">
+        <option selected disabled value="null" >Select Status of DCT</option>
+        <option *ngFor="let selectStatus of status" [ngValue]="selectStatus">{{selectStatus.status}}</option>
+      </select>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6 text-right ">
+      <ul class="status">
+        <li class="approved">Approved</li>
+        <li class="pending ml-3">Pending</li>
+        <li class="rejected ml-3">Rejected</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-2">
+    <p class="show">Show</p>
+    <select class="browser-default custom-select numSelect">
+      <option>10</option>
+    </select>
+    <p class="entries">Entries</p>
+  </div>
+  <div class="col-md-2"></div>
+  <div class="col-md-2"></div>
+  <div class="col-md-2 ">
+      <div class="btn-group text-right" dropdown>
+          <button type="button" class="btn btn-obc   p-2 mr-1" dropdownToggle style="width:inherit;">
+            <i class="icon-download"></i> Download Template
+          </button>
+      </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2" style="padding-left: 60px;">
+      <button type="button" class="btn btn-upload   p-2" dropdownToggle style="width:inherit;">
+        <i class="icon-download"></i> Upload
+      </button>
+      <!-- <div class="dropdown-menu dropdown-menu-right dropExport" *dropdownMenu>
+          <a class="dropdown-item" (click)="export('.xlsx')">Excel</a>
+          <a class="dropdown-item" (click)="export('.csv')">CSV</a>
+      </div> -->
+  </div>
+</div>
+
+<app-maker3-data #maker *ngIf="isMaker"  [quarter]="quarter" [tt]="tt" [year]="year" [rf]="rf" (myEvent)="info.getInfoAll(quarter,year,tt)"></app-maker3-data>
+
+
+<!-- <app-checker3-data *ngIf="isChecker" #checker [quarter]="quarter" [tt]="tt" [year]="year" (checkerEvent)="info.getInfoAll(quarter,year,tt);maker.getMakerAll(quarter,year,tt)"></app-checker3-data> -->
+
+ <!-- <app-info-data #info [quarter]="quarter" [tt]="tt" [year]="year"></app-info-data> -->
+
+ <!-- <app-submitted-summary *ngIf="isSubmited" #submited [quarter]="quarter" [tt]="tt" [year]="year"></app-submitted-summary>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

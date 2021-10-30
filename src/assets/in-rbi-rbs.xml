@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by IRIS Business Services Limited -->
+<xsd:schema targetNamespace="http://www.rbi.org/in/xbrl/rbi/rbs" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:in-rbi-rbs-role="http://www.rbi.org/in/xbrl/2012-12-12/rbi/rbs" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:num="http://www.xbrl.org/dtr/type/numeric" xmlns:nonnum="http://www.xbrl.org/dtr/type/non-numeric" xmlns:xbrldt="http://xbrl.org/2005/xbrldt" xmlns:in-rbi-rep-rbs="http://www.rbi.org/in/xbrl/2012-04-25/rbi/rbs" xmlns:xl="http://www.xbrl.org/2003/XLink" xmlns:in-rbi-rep="http://www.rbi.org/in/xbrl/rbi" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:in-rbi-rep-types="http://www.rbi.org/in/xbrl/in-rbi-rep-types" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xsd:annotation>
+    <xsd:appinfo>
+	  <link:linkbaseRef xlink:type="simple" xlink:href="in-rbi-rbs-presentation.xml" xlink:role="http://www.xbrl.org/2003/role/presentationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="in-rbi-rbs-calculation.xml" xlink:role="http://www.xbrl.org/2003/role/calculationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="in-rbi-rbs-definition.xml" xlink:role="http://www.xbrl.org/2003/role/definitionLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+      <link:linkbaseRef xlink:type="simple" xlink:href="in-rbi-rbs-reference.xml" xlink:role="http://www.xbrl.org/2003/role/referenceLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    </xsd:appinfo>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.xbrl.org/2003/instance" schemrbscation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xsd:import namespace="http://www.rbi.org/in/xbrl/rbi" schemrbscation="../core/in-rbi-rep.xsd"/>
+  <xsd:import namespace="http://www.rbi.org/in/xbrl/rbi/rbs/role" schemrbscation="in-rbi-rbs-role.xsd"/>
+  <xsd:import namespace="http://www.xbrl.org/2003/linkbase" schemrbscation="http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd"/>
+</xsd:schema>

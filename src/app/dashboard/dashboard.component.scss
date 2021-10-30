@@ -1,0 +1,57 @@
+.gridCenter {
+    margin: 0 auto;
+}
+
+.brand-card-header span {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.tranche-head{font-size:16px; font-weight:600; padding:7px 0; margin-top:10px;}
+.tranche-section{background:#fff; border-radius:0 10px 10px 0; transition:all ease-in-out .5s;
+    padding:20px 0; position:relative; margin-bottom:6px;
+    .trache-row .name{font-weight:600; padding-left:10px;}
+    a:hover{color:#d91515}
+    &::before{content:""; background:#6fc1bd; width:10px; border-radius:10px 0 0 10px;
+        position: absolute; top:0; bottom:0; left:-10px;
+    }
+    &:nth-child(2){
+        &::before{background:#5881a0;}
+    }
+    &:nth-child(3){
+        &::before{background:#7b79a1;}
+    }
+    &:nth-child(4){
+        &::before{background:#f67e7d;}
+    }
+    &:nth-child(5){
+        &::before{background:#f2d589;}
+    }
+    &:nth-child(6){
+        &::before{background:#f8a988;}
+    }
+    &:nth-child(7){
+        &::before{background:#27aa9d;}
+    }
+    &:nth-child(8){
+        &::before{background:#9ed0a9;}
+    }
+    .submitted-data{background:#f1f1f1; padding:15px; margin: 15px 0 -15px 0; 
+        border-radius: 0 0 10px 0; text-align:center; position:relative;
+        &::before{content:""; width:0; height:0;
+            // border-left: 15px solid transparent;
+            // border-right: 15px solid transparent;
+            // border-bottom: 15px solid #f1f1f1;
+            position:absolute; top:-15px; right:30%;}
+        ul{display:inline-block; list-style:none; margin:0; padding:0;}
+        ul li{display:block; float:left; padding:0 15px; position:relative; width:150px;
+            color:#999;
+            span{display:block; color:#333; font-size:18px; font-weight:600;}
+            &:after{content:""; height:50px; position:absolute; right:0; top:0; width:1px; border-left:solid 1px #999;}
+            &:nth-last-child(2):after, &:last-child:after{display:none;}
+        }
+        .btn{background:#fff; border:1px solid #ccc; border-radius:20px; margin-top:10px; 
+            padding:4px 20px; transition:all ease-in-out .5s;}
+        .btn:hover{background:#d91515; color:#fff}
+    }
+}

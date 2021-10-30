@@ -1,0 +1,50 @@
+.adminCard {
+    padding: 1em 2em;
+    margin: 0;
+    border: 1px solid #a2a2a2;
+    border-radius: 4px;
+    width: 100%;
+    background-color: #fff;
+}
+
+.b1 {
+    border: 1px solid #a2a2a2;
+    border-radius: 4px;
+}
+
+.progress-xs {
+    height: 25px;
+    background-color: #ffffff;
+}
+
+.toolContent1 {
+    display: -webkit-inline-box;
+    display: inline-flex;
+    position: absolute;
+    margin-top: -25px;
+    right: -140px;
+    width: 450px;
+    background: #fff;
+    border: 1px solid;
+    border-radius: 8px;
+    opacity: 3;
+    padding: 10px;
+    -webkit-animation: fade_in_show 0.5s;
+    z-index: 99;
+    text-align: left;
+    animation: fade_in_show 0.5s;
+    /* color: #fff; */
+}
+
+.toolContent1:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid #838383;
+    left: 200px;
+    top: -8px;
+}

@@ -1,0 +1,112 @@
+<form #f="ngForm" name="form" (ngSubmit)="approveData(f.form)">
+    <table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+        <thead class="sticky-top blue">
+            <tr>
+                <th class="bg-tb-head">
+                    <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+                </th>
+                <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.sort?head.name:''" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.width }">{{head.title}}
+                    <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                    </mdb-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let itm of data; let i = index">
+                <tr  class="bg-white" [ngClass]="itm.rejected?'borderColorRejected':'borderColorPending'">
+                    <ng-container>
+                        <td scope="row">
+                            <input type="checkbox" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                            <span *ngIf="!itm.rejected"  class="pending">Pending</span>
+                            <span *ngIf="itm.rejected" [ngClass]="{ 'rejected': itm.rejected}" class="rejected">Rejected</span>
+                        </td>
+                        <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                        <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                        <td scope="row" [title]="itm.dctDepartment">{{itm.dctDepartment}}</td>
+                        <td scope="row" [title]="itm.dctUnit"> {{itm.dctUnit}}</td>
+
+                        <td scope="row" [title]="itm.systemValue">{{itm.systemValue|twoDecimals}}</td>
+                        <td scope="row">
+                            {{itm.lastQuarterValue | number : '1.2-2' | noComma}}
+                        </td>
+                        <td scope="row">
+                            {{itm.lastQuarterOfLastYearValue | number : '1.2-2'| noComma}}
+                        </td>
+                        <td scope="row">
+                            {{itm.currentOwner}}
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+            <tr>
+                <td colspan="12" style="position: relative;">
+                    <nav>
+                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                            <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+
+                            <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">‹</span>
+                                </a>
+                            </li>
+                            <ng-container *ngFor="let page of pages;let i=index;">
+                                <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                    <a class="page-link" [ngClass]="activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+                            <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">›</span>
+                                </a>
+                            </li>
+
+
+                            <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Next" class="page-link">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="m-0 row pagesize">
+                        <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                        <div class="col-md-6 p-0">
+                            <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerByStatus(quarter,year, tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <!-- <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="9">
+                <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination>
+            </td>
+        </tr>
+    </tfoot> -->
+    </table>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success" [disabled]="checkedData.length==0">Submit</button>
+            <!-- <button type="submit" class="btn btn-info" (click)="export()">Download Excel</button> -->
+        </div>
+    </div>
+
+    <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+</form>

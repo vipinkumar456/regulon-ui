@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-md-10">
+        <!-- <div class="input-group mb-2">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control searchBox" placeholder="Search" autocomplete="search">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="getSearchAll()">
+                <option value="" disabled>Please select</option>
+                <option value="name">Name</option>
+                <option value="description">DCT Description</option>
+            </select>
+            <div class="input-group-prepend" style="cursor: pointer;" (click)="getSearchAll()">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div> -->
+    </div>
+    <div class="col-md-2 mb-2 float-right">
+        <button class="btn btn-block btn-primary btn-obc" type="button" (click)="addWorkFlow()">Add WorkFlow</button>
+
+    </div>
+</div>
+<table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+    <thead class="sticky-top blue">
+        <tr>
+            <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.name=='name'||head.name=='user'||head.name=='level'||head.name=='dct'||head.name=='action' ? '175px' : '' }">{{head.title}}
+                <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                </mdb-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody #row>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr mdbTableCol>
+                <ng-container>
+                    <td scope="row">
+                        {{itm.name}}
+                    </td>
+                    <td scope="row" [title]="itm.description">
+                        {{itm.description}}
+                    </td>
+                    <!-- <td scope="row" [title]="itm.dct">{{itm.dct}}</td>
+                    <td scope="row" [title]="itm.user">{{itm.user}}</td>
+                    <td scope="row" [title]="itm.level">{{itm.level}}</td> -->
+                    <td scope="row">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true" (click)="edit(itm)"></i>
+                        <!-- <i class="icon-pencil text-info pointer" (click)="edit(itm)">Edit</i> -->
+                        <i class="fa fa-trash" aria-hidden="true" (click)="delete(itm)"></i>
+                        <!-- <i class="icon-trash ml-2 text-danger pointer" (click)="delete(itm)">Delete</i> -->
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="6" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                      <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:pager.activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(pager.activePage - 1)" [ngClass]="{disabled:pager.activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pager.pages;let i=index;">
+                            <li class="page-item" *ngIf="i<pager.activePage+3&&i>pager.activePage-3">
+                                <a class="page-link" [ngClass]="pager.activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(pager.activePage + 1)" [ngClass]="{disabled:pager.activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:pager.activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-5 mt-2 p-0 col-form-label" for="select3">Size</label>
+                    <div class="col-md-7 p-0">
+                        <select [(ngModel)]="pager.size" name="size" class="custom-select" (change)="pager.activePage=0;getWorkFlowsAll()">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    </tfoot>
+</table>

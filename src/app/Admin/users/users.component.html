@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control" placeholder="Search" autocomplete="search" (input)="searchItems()">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-2 float-right">
+        <button class="btn btn-block btn-primary btn-obc" (click)="addUser()" type="button">Add User</button>
+
+    </div> -->
+</div>
+<table class="table trancheTable z-depth-1" mdbTable #tableEl="mdbTable" stickyHeader="true" hover="true" striped="true">
+    <thead class="sticky-top blue">
+        <tr>
+            <th *ngFor="let key of headElements;let i = index" [mdbTableSort]="data" [sortBy]="key.name" scope="col">{{key.title | titlecase}}
+                <mdb-icon fa icon="sort fa">
+                </mdb-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody #row>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr mdbTableCol>
+                <!-- <ng-container *ngFor="let key of headElements"> -->
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row" [title]="itm.userName">{{itm.userName}}</td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+                    <span *ngFor="let role of itm.roles;let j=index;">
+                        {{role.name}}<span *ngIf="j>=itm.roles.length">,</span>
+                    </span>
+                </td>
+                <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row" [title]="itm.userName">{{itm.accountNonExpired?'Yes':'No'}}</td>
+                <!-- </ng-container> -->
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="11">
+                <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination>
+            </td>
+        </tr>
+    </tfoot>
+</table>

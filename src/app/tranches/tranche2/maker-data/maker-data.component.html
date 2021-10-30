@@ -1,0 +1,461 @@
+<!-- <form #f="ngForm" name="form" (ngSubmit)="approveData(f.form)">
+  <table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+      <thead class="sticky-top blue">
+          <tr>
+              <th class="bg-tb-head">
+                  <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+              </th>
+              <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.sort?head.name:''" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.width }">{{head.title}}
+                  <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                  </mdb-icon>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let itm of data; let i = index">
+              <tr [ngClass]="{ 'text-danger': itm.rejected}" class="bg-white">
+                  <ng-container>
+                      <td scope="row">
+                          <input type="checkbox" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                          <span *ngIf="!itm.rejected" class="pending">Pending</span>
+                          <span *ngIf="itm.rejected" class="rejected">Rejected</span>
+                      </td>
+                      <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                      <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                      <td scope="row" [title]="itm.dctDepartment">{{itm.dctDepartment}}</td>
+                      <td scope="row" [title]="itm.dctUnit"> {{itm.dctUnit}}</td>
+
+                      <td scope="row" [title]="itm.systemValue">{{itm.systemValue|twoDecimals}}</td>
+                      <td scope="row">
+                          {{itm.lastQuarterValue | number : '1.2-2' | noComma}}
+                      </td>
+                      <td scope="row">
+                          {{itm.lastQuarterOfLastYearValue | number : '1.2-2'| noComma}}
+                      </td>
+                      <td scope="row">
+                          {{itm.currentOwner}}
+                      </td>
+                  </ng-container>
+              </tr>
+          </ng-container>
+      </tbody>
+      <tfoot class="grey lighten-5 w-100">
+          <tr>
+              <td colspan="12" style="position: relative;">
+                  <nav>
+                      <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                          <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">«</span>
+                              </a>
+                          </li>
+
+                          <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">‹</span>
+                              </a>
+                          </li>
+                          <ng-container *ngFor="let page of pages;let i=index;">
+                              <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                  <a class="page-link" [ngClass]="activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                              </li>
+                          </ng-container>
+                          <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">›</span>
+                              </a>
+                          </li>
+
+
+                          <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                              <a aria-label="Next" class="page-link">
+                                  <span aria-hidden="true">»</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </nav>
+                  <div class="m-0 row pagesize">
+                      <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                      <div class="col-md-6 p-0">
+                          <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerAll(quarter,tt, year)">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="250">250</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                  </select>
+                      </div>
+                  </div>
+              </td>
+          </tr>
+      </tfoot>
+      <tfoot class="grey lighten-5 w-100">
+      <tr>
+          <td colspan="9">
+              <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="data">
+              </mdb-table-pagination>
+          </td>
+      </tr>
+  </tfoot>
+  </table>
+
+  <div class="row">
+      <div class="col-md-12 text-center">
+          <button type="submit" class="btn btn-success" [disabled]="checkedData.length==0">Submit</button>
+          <button type="submit" class="btn btn-info" (click)="export()">Download Excel</button>
+      </div>
+  </div>
+
+  <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+</form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control searchBox" placeholder="Search" autocomplete="search">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="searchItems()">
+                <option value="" disabled>Please select</option>
+                <option value="department">Department</option>
+                <option value="description">DCT Description</option>
+            </select>
+            <div class="input-group-prepend" style="cursor: pointer;" (click)="searchItems()">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<form #f="ngForm" name="form" (ngSubmit)="approveData(f.form)">
+    <table class="table trancheTable z-depth-1 tranche2Table" stickyHeader="true" hover="true" striped="true" *ngIf="tt!=3">
+        <thead class="sticky-top blue">
+            <tr>
+                <th class="bg-tb-head" rowspan="2">
+                    <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+                </th>
+                <th colspan="3">Tranche II FY:{{year}},QT:{{quarter}}</th>
+                <th colspan="4">Remarks 1</th>
+                <th class="pending">Remarks 2</th>
+                <th>Remarks 3</th>
+                <th rowspan="2">Docs</th>
+            </tr>
+            <tr style="font-size: 12px !important;">
+                <th style="width: 100px;">
+                    Risk
+                </th>
+                <th style="width: 85px;">
+                    Param No
+                </th>
+                <th>
+                    Control Parameter
+                </th>
+                <th title="Control Objective">Control Objective</th>
+                <th title="Control Document">Control Document</th>
+                <th title="Type Of Control">Type Of Control</th>
+                <th title="Control Design And Assessment">Control Design And Assessment</th>
+                <th title=" Review and Exceptions ">Review and Exceptions</th>
+                <th title="Change in controls ">Change in controls</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let itm of data; let i = index">
+                <tr>
+                    <ng-container>
+                        <td scope="row">
+                            <input type="checkbox" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                        </td>
+                        <td scope="row" [title]="itm.riskType">{{itm.riskType}}</td>
+                        <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                        <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+
+                        <td scope="row" [title]="itm.remark1ControlObjective" *ngIf="tt==2">
+                        </td>
+                        <td scope="row" [title]="itm.remark1ControlDocument" *ngIf="tt==2">
+                        </td>
+
+                        <td scope="row" *ngIf="tt==2">
+                            <select name="remark1TypeOfControl{{i}}" #remark1TypeOfControl="ngModel" [required]="itm.checked" [ngClass]="{ 'is-invalid': f.submitted && remark1TypeOfControl.invalid }" [(ngModel)]="itm.remark1TypeOfControl">
+                                <option value="Manual">Manual</option>
+                                <option value="Semi-Automatic">Semi-Automatic</option>
+                                <option value="Automatic">Automatic</option>
+                            </select>
+                        </td>
+                        <td scope="row" [title]="itm.remark1ControlDesignAssement" *ngIf="tt==2">
+
+                        </td>
+
+                        <td scope="row" [title]="itm.remark2" *ngIf="tt==2">
+                        </td>
+                        <td scope="row" [title]="itm.remark3" *ngIf="tt==2">
+                        </td>
+
+                        <td scope="row">
+                            <i class="text-primary fa fa-pencil" ></i>
+                            <i class="text-primary fa fa-upload cursor-pointer mr-1" title="Upload Document" (click)="selectFiles(itm)"></i>
+                            <i class="fa fa-download text-success cursor-pointer mr-1" *ngIf="itm.fileID" [title]="itm.fileName" (click)="download(itm)"></i>
+                            <i class="fa fa-trash text-danger mr-1 cursor-pointer" *ngIf="itm.fileID" [title]="itm.fileName" (click)="delete(itm)"></i>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+            <tr>
+                <td colspan="10" style="position: relative;">
+                    <nav>
+                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                            <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+
+                            <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">‹</span>
+                                </a>
+                            </li>
+                            <ng-container *ngFor="let page of pages;let i=index;">
+                                <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                    <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+                            <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">›</span>
+                                </a>
+                            </li>
+
+
+                            <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Next" class="page-link">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="m-0 row pageSize">
+                        <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                        <div class="col-md-6 p-0">
+                            <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <table class="table trancheTable tableFixed z-depth-1" stickyHeader="true" hover="true" striped="true" *ngIf="tt==3">
+        <thead class="sticky-top blue">
+
+            <tr>
+                <th class="bg-tb-head" style="width: 25px;" rowspan="2">
+                    <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" (change)="checkAll()">
+                </th>
+                <th colspan="2">Tranche III, FY:{{year}},Qt:{{quarter}}</th>
+                <th colspan="5">CONTROL ENVIRONMENT</th>
+                <th colspan="4">AUDIT ASSESSEMENT</th>
+                <th colspan="4">COMPLANCE ASSESSEMENT</th>
+                <th rowspan="2" style="width: 75px;">Docs</th>
+            </tr>
+            <tr style="font-size: 12px !important;">
+                <th>Param No</th>
+                <th>Control Param</th>
+                <th title="Control Type">Control Type</th>
+                <th title="Date of Last Review of Control">Date of Last Review</th>
+                <th title="Control Policy">Control Policy</th>
+                <th title="Process">Process</th>
+                <th title="Review Mechanism">Review Mechanism</th>
+                <th title="Type of Check">Type of Check</th>
+                <th title="Sampling Methdology">Sampling Methdology</th>
+                <th title="Number of samples checked">Number of samples checked</th>
+                <th title="Audit Conclusion">Audit Conclusion</th>
+                <th title="Sampling Methdology">Sampling Methdology</th>
+                <th title="Number of samples checked">Number of samples checked</th>
+                <th title="Observation">Observation</th>
+                <th title="Compliance Conclusion">Compliance Conclusion</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let itm of data; let i = index">
+                <tr>
+                    <ng-container>
+                        <td scope="row">
+                            <input type="checkbox" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                        </td>
+                        <td scope="row" [title]="itm.dctNumber"><a class="text-primary" (click)="editTranche3(itm)">{{itm.dctNumber}}</a></td>
+                        <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                        <td scope="row" [title]="itm.controlType">
+                            <select name="controlType{{i}}" #controlType="ngModel" [required]="itm.checked" [ngClass]="{ 'is-invalid': f.submitted && controlType.invalid }" [(ngModel)]="itm.controlType">
+                                <option value="Manual">Manual</option>
+                                <option value="IT">IT</option>
+                                <option value="NA">NA</option>
+                            </select>
+                        </td>
+
+                        <td scope="row" [title]="itm.dateOfLastReviewControl">
+                            <input type="text" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" name="dateOfLastReviewControl{{i}}" #dateOfLastReviewControl="ngModel" [(ngModel)]="itm.dateOfLastReviewControl">
+                        </td>
+                        <td scope="row" [title]="itm.controlDescriptonPolicy">
+                            <textarea maxlength="3000" name="controlDescriptonPolicy{{i}}" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.controlDescriptonPolicy" rows="1"></textarea>
+                            <input type="text" name="controlDescriptonPolicy{{i}}" #controlDescriptonPolicy="ngModel" [(ngModel)]="itm.controlDescriptonPolicy">
+                        </td>
+                        <td scope="row" [title]="itm.controlDescriptonProcess">
+                            <textarea maxlength="3000" name="controlDescriptonProcess{{i}}" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.controlDescriptonProcess" rows="1"></textarea>
+                            <input type="text" name="controlDescriptonProcess{{i}}" #controlDescriptonProcess="ngModel" [(ngModel)]="itm.controlDescriptonProcess">
+                        </td>
+                        <td [title]="itm.controlDescriptonReviewMachanism">
+                            <textarea maxlength="3000" name="controlDescriptonReviewMachanism{{i}}" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.controlDescriptonReviewMachanism" rows="1"></textarea>
+                        </td>
+                        <td scope="row" [title]="itm.typeOfCheck">
+                            <select name="typeOfCheck{{i}}" #typeOfCheck="ngModel" [required]="itm.checked" [ngClass]="{ 'is-invalid': f.submitted && typeOfCheck.invalid }" [(ngModel)]="itm.typeOfCheck">
+                                <option value="Concurrent Audit">Concurrent Audit</option>
+                                <option value="RFIA/RBIA">RFIA/RBIA</option>
+                                <option value="Credit Audit">Credit Audit</option>
+                                <option value="IT Audit">IT Audit</option>
+                                <option value="External Audit/Statutory Audit">External Audit/Statutory Audit</option>
+                                <option value="Management Audit">Management Audit</option>
+                                <option value="Others">Others</option>
+                                <option value="Not Applicable">Not Applicable</option>
+                                <option value="None">None</option>
+                            </select>
+                        </td>
+                        <td [title]="itm.auditSamplingMethodology">
+                            <textarea maxlength="3000" name="auditSamplingMethodology{{i}}" #auditSamplingMethodology="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.auditSamplingMethodology" rows="1"></textarea>
+                        </td>
+                        <td scope="row" [title]="itm.auditNoOfSamplesChecked">
+                            <input type="number" name="auditNoOfSamplesChecked{{i}}" #auditNoOfSamplesChecked="ngModel" [(ngModel)]="itm.auditNoOfSamplesChecked">
+                        </td>
+                        <td scope="row" [title]="itm.auditConclusion">
+                            <input type="text" name="auditConclusion{{i}}" #auditConclusion="ngModel" [(ngModel)]="itm.auditConclusion">
+                            <select name="auditConclusion{{i}}" #auditConclusion="ngModel" [required]="itm.checked" [ngClass]="{ 'is-invalid': f.submitted && auditConclusion.invalid }" [(ngModel)]="itm.auditConclusion">
+                                <option value="Complied">Complied</option>
+                                <option value="Not Complied">Not Complied</option>
+                                <option value="Not Applicable">Not Applicable</option>
+                            </select>
+                        </td>
+                        <td scope="row" [title]="itm.typeOfCheck">
+                            <input type="text" name="typeOfCheck{{i}}" #typeOfCheck="ngModel" [(ngModel)]="itm.typeOfCheck">
+                        </td>
+                        <td [title]="itm.complianceSamplingMethodology">
+                            <textarea maxlength="3000" name="complianceSamplingMethodology{{i}}" #complianceSamplingMethodology="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.complianceSamplingMethodology" rows="1"></textarea>
+                        </td>
+                        <td scope="row" [title]="itm.complianceNoOfSamplesChecked">
+                            <input type="number" name="complianceNoOfSamplesChecked{{i}}" #complianceNoOfSamplesChecked="ngModel" [(ngModel)]="itm.complianceNoOfSamplesChecked">
+                        </td>
+                        <td [title]="itm.complianceObservation">
+                            <textarea maxlength="3000" name="complianceObservation{{i}}" #complianceObservation="ngModel" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.complianceObservation" rows="1"></textarea>
+                        </td>
+                        <td scope="row" [title]="itm.complianceConclusion">
+                            <input type="text" name="complianceConclusion{{i}}" #complianceConclusion="ngModel" [(ngModel)]="itm.complianceConclusion">
+                            <select name="complianceConclusion{{i}}" #complianceConclusion="ngModel" [required]="itm.checked" [ngClass]="{ 'is-invalid': f.submitted && complianceConclusion.invalid }" [(ngModel)]="itm.complianceConclusion">
+                                <option value="Pass">Pass</option>
+                                <option value="Fail">Fail</option>
+                                <option value="Not Applicable">Not Applicable</option>
+                                <option value="None">None</option>
+                            </select>
+                        </td>
+
+                        <td [title]="itm.comments">
+                            <textarea maxlength="3000" name="comments{{i}}" style="width: 100%;margin-bottom: -5px;" [(ngModel)]="itm.comments" rows="1"></textarea>
+                        </td>
+                        <td scope="row">
+                            <i class="text-primary fa fa-upload pointer mr-1" title="Upload Document" (click)="selectFiles(itm)"></i>
+                            <i class="fa fa-download text-success pointer mr-1" *ngIf="itm.fileID" [title]="itm.fileName" (click)="download(itm)"></i>
+                            <i class="fa fa-trash text-danger mr-1 cursor-pointer" *ngIf="itm.fileID" [title]="itm.fileName" (click)="delete(itm)"></i>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+            <tr>
+                <td colspan="17" style="position: relative;">
+                    <nav>
+                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                            <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+
+                            <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">‹</span>
+                                </a>
+                            </li>
+                            <ng-container *ngFor="let page of pages;let i=index;">
+                                <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                    <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+                            <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">›</span>
+                                </a>
+                            </li>
+
+
+                            <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Next" class="page-link">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="m-0 row pagesize">
+                        <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                        <div class="col-md-6 p-0">
+                            <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success" [disabled]="checkedData.length==0">Approve</button>
+        </div>
+    </div>
+    <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+</form>

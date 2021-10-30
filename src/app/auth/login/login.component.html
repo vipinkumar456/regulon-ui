@@ -1,0 +1,74 @@
+<div class="loginHeader">
+    <img src="./assets/img/logo.png" class="mt-1" height="70">
+</div>
+<div class="login-container">
+    <div class="app-body login-body">
+        <main class="main d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+
+                        <form novalidate (ngSubmit)="loginForm.valid && doLogin()" #loginForm="ngForm">
+                            <p class="welcome-text">Welcome</p>
+                            <h2>Log in to DGRegulon</h2>
+                            <p class="text-danger text-center" *ngIf="invalid">Invalid Username or Password</p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-user-line"></i></span>
+                                </div>
+                                <input type="text" name="username" #username="ngModel"
+                                    (input)="userIn($event.target.value)" [(ngModel)]="user.username"
+                                    class="form-control" placeholder="Username" autocomplete="username" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                                </div>
+                                <input type="password" name="password" #password="ngModel" [(ngModel)]="user.password"
+                                    class="form-control" placeholder="Password" autocomplete="current-password"
+                                    required>
+                                <!-- pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" -->
+                            </div>
+                            <p class="forgot-pass"><a href="">Forgot Password?</a></p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" [disabled]="isLoading"
+                                        class="btn btn-primary btn-block px-4 float-right btn-obc">Log in <i *ngIf="isLoading" class="fa fa-circle-o-notch fa-spin"
+                                        style="font-size:15px"></i></button>
+                                </div>
+                                <!-- <div class="col-6 text-right">
+                                            <button type="button" (click)="resetPassword=true;" class="btn btn-link px-0">Reset password</button>
+                                        </div> -->
+                            </div>
+                        </form>
+                        <form novalidate (ngSubmit)="doLogin()" *ngIf="resetPassword">
+                            <h1>Reset Password</h1>
+                            <p class="text-muted">Enter Your email</p>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-mail"></i></span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Email" autocomplete="username"
+                                    required>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <button type="button" class="btn btn-primary px-4">Reset Password</button>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button type="button" (click)="resetPassword=false;"
+                                        class="btn btn-link px-0 float-right" style="margin-bottom: 4px">
+                                        <i class="fa fa-chevron-left"></i>
+                                        <span>Back To Login</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

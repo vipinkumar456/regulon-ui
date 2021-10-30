@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'regulon-icon';
+  src:  url('../fonts/regulon-icon.eot?jt8wdv');
+  src:  url('../fonts/regulon-icon.eot?jt8wdv#iefix') format('embedded-opentype'),
+    url('../fonts/regulon-icon.ttf?jt8wdv') format('truetype'),
+    url('../fonts/regulon-icon.woff?jt8wdv') format('woff'),
+    url('../fonts/regulon-icon.svg?jt8wdv#regulon-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'regulon-icon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-dashboard:before {
+  content: "\e90f";
+}
+.icon-download:before {
+  content: "\e919";
+}
+.icon-dct:before {
+  content: "\e90b";
+}
+.icon-workflow:before {
+  content: "\e90c";
+}
+.icon-role:before {
+  content: "\e90d";
+}
+.icon-users:before {
+  content: "\e90e";
+}
+.icon-options:before {
+  content: "\e918";
+}
+.icon-lock:before {
+  content: "\e907";
+}
+.icon-search:before {
+  content: "\e908";
+}
+.icon-sort:before {
+  content: "\e909";
+}
+.icon-user-line:before {
+  content: "\e90a";
+}
+.icon-admin:before {
+  content: "\e900";
+}
+.icon-guidelines:before {
+  content: "\e901";
+}
+.icon-help:before {
+  content: "\e902";
+}
+.icon-home:before {
+  content: "\e903";
+}
+.icon-reports:before {
+  content: "\e904";
+}
+.icon-tranche:before {
+  content: "\e905";
+}
+.icon-user:before {
+  content: "\e906";
+}

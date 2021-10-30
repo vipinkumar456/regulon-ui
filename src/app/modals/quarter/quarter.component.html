@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 id="dialog-sizes-name2" class="modal-title pull-left">Select A Quarter</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <select class="form-control" id="quarter" name="quarter" [(ngModel)]="quarter">
+            <!-- <option value="0">Select A Quarter</option> -->
+            <option value="1">Quarter #1</option>
+            <option value="2">Quarter #2</option>
+            <option value="3">Quarter #3</option>
+            <option value="3">Quarter #4</option>
+        </select>
+    </div>
+    <div class="modal-footer text-right">
+        <button type="submit" class="btn btn-primary" (click)="submitQuarter()">Submit</button>
+    </div>
+</div>

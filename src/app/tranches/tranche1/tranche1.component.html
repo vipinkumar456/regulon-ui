@@ -1,0 +1,350 @@
+
+
+<div class="page-title">
+  <h3 class=" d-inline">Tranche: {{tranche}} </h3>
+  <p class="d-inline">( Quarter : {{quarter}}, Financial Year : {{year}})</p>
+</div>
+<div class="filter-container">
+  <div class="row">
+    <div class="col-md-4 filter">
+      <p>Filter By :
+      </p>
+      <!-- <form [formGroup]="countryForm"> -->
+      <select class="browser-default form-control statusSelect float-left"   id="statusSelect" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" (change)="gotoStatus()">
+        <option [ngValue]="null" [disabled]="true" >Select Status of DCT</option>
+        <option *ngFor="let selectStatus of status" [ngValue]="selectStatus">{{selectStatus.status}}</option>
+      </select>
+    <!-- </form> -->
+    </div>
+    <div class="col-md-4 filter" *ngIf="!isShowFilter" ></div>
+    <div class="col-md-4 filter" *ngIf="isShowFilter" >
+        <p>Filter By :
+        </p>
+        <!-- <form [formGroup]="countryForm"> -->
+        <select class="browser-default form-control statusSelect float-left"   id="userselectedStatus" [(ngModel)]="userselectedStatus" [ngModelOptions]="{standalone: true}" (change)="makerCheckerStatus()">
+          <option [ngValue]="null" [disabled]="true" >Select Maker/Checker</option>
+          <option *ngFor="let selectStatus of userStatus" [ngValue]="selectStatus">{{selectStatus.status}}</option>
+        </select>
+        <!-- </form> -->
+    </div>
+    <!-- <div class="col-md-2"></div> -->
+    <div class="col-md-4 text-right ">
+      <!-- <p class="approved d-inline">Approved</p>
+      <p class="pending d-inline ml-3">Pending</p>
+      <p class="rejected d-inline ml-3">Rejected</p> -->
+      <ul class="status">
+        <li class="approved">Approved</li>
+        <li class="pending ml-3">Pending</li>
+        <li class="rejected ml-3">Rejected</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+    <!-- <div class="col-md-2">
+        <select class="browser-default custom-select labelSelect mt-0 mr-1" name="year" [(ngModel)]="year">
+            <option value="0" disabled>Select Year</option>
+            <option value="2021">2021-2022</option>
+            <option value="2020">2020-2021</option>
+            <option value="2019">2019-2020</option>
+            <option value="2018">2018-2019</option>
+            <option value="2017">2017-2018</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select class="browser-default custom-select labelSelect mt-0" id="quarter" name="quarter" [(ngModel)]="quarter">
+            <option value="0" disabled>Select Quarter</option>
+            <option value="1">Quarter #1</option>
+            <option value="2">Quarter #2</option>
+            <option value="3">Quarter #3</option>
+            <option value="4">Quarter #4</option>
+            <option value="5">Quarter #Audited</option>
+        </select>
+    </div> -->
+    <!-- <div class="col-md-1">
+        <button (click)="search()" class="btn btn-primary btn-obc" style="width:inherit;">Search</button>
+    </div> -->
+    <div class="col-md-4 row" *ngIf="isMaker">
+        <div class="col-md-4 p-0" style="text-align: center;"><label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Show</label></div>
+        <div class="col-md-4 p-0" >
+        <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerByStatus(quarter,year, tt)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="250">250</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+        </select>
+        </div>
+        <div class="col-md-4 p-0" style="text-align: center;"><label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Entries</label></div>
+    </div>
+    <div class="col-md-4 row" *ngIf="isChecker">
+        <div class="col-md-4 p-0" style="text-align: center;"><label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Show</label></div>
+        <div class="col-md-4 p-0" >
+        <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getCheckerByStatus(quarter,year, tt)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="250">250</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+        </select>
+        </div>
+        <div class="col-md-4 p-0" style="text-align: center;"><label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Entries</label></div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <div class="btn-group text-white w-100" >
+            <button type="button" class="btn btn-download text-white  p-0 "  (click)="download()" dropdownToggle style="width:inherit;">
+              <i class="icon-download"></i> Download DCT
+            </button>
+            <!-- <div class="dropdown-menu dropdown-menu-right dropExport" *dropdownMenu>
+                <a class="dropdown-item" (click)="export('.xlsx')">Excel</a>
+                <a class="dropdown-item" (click)="export('.csv')">CSV</a>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<!-- <app-maker-data #maker *ngIf="isMaker"  [quarter]="quarter" [tt]="tt" [year]="year" [rf]="rf"  (myEvent)="info.getInfoAll(quarter,year,tt);"></app-maker-data> -->
+
+<form #f="ngForm" name="form"  *ngIf="isMaker" (ngSubmit)="approveData(f.form)" >
+  <table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+      <thead class="sticky-top blue">
+          <tr>
+              <th class="bg-tb-head">
+                  <input type="checkbox" name="checkedAll" *ngIf="!isSubmited" [(ngModel)]="checkedAll" (change)="checkAll()">
+              </th>
+              <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.sort?head.name:''" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.width }">{{head.title}}
+                  <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                  </mdb-icon>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+        
+          <ng-container *ngFor="let itm of data; let i = index">
+              <tr  class="bg-white" [ngClass]="itm.rejected?'borderColorRejected':'borderColorPending'">
+                  <ng-container>
+                      <td scope="row">
+                          <input type="checkbox" *ngIf="!isSubmitted" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                          <span *ngIf="!itm.rejected && !isSubmitted"  class="pending">Pending</span>
+                          <span *ngIf="itm.rejected && !isSubmitted" [ngClass]="{ 'rejected': itm.rejected}" class="rejected">Rejected</span>
+                          <!-- <span *ngIf="isSubmited"  class="approved"></span> -->
+                      </td>
+                      <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                      <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                      <td scope="row" [title]="itm.dctDepartment">{{itm.dctDepartment}}</td>
+                      <td scope="row" [title]="itm.dctUnit"> {{itm.dctUnit}}</td>
+
+                      <td scope="row" [title]="itm.systemValue">{{itm.systemValue|twoDecimals}}</td>
+                      <td scope="row">
+                          {{itm.lastQuarterValue | number : '1.2-2' | noComma}}
+                      </td>
+                      <td scope="row">
+                          {{itm.lastQuarterOfLastYearValue | number : '1.2-2'| noComma}}
+                      </td>
+                      <td scope="row">
+                          {{itm.currentOwner}}
+                      </td>
+                  </ng-container>
+              </tr>
+          </ng-container>
+      </tbody>
+      <tfoot class="grey lighten-5 w-100">
+          <tr>
+              <td colspan="12" style="position: relative;">
+                  <nav>
+                      <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                          <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">«</span>
+                              </a>
+                          </li>
+
+                          <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">‹</span>
+                              </a>
+                          </li>
+                          <ng-container *ngFor="let page of pages;let i=index;">
+                              <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                  <a class="page-link" [ngClass]="activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                              </li>
+                          </ng-container>
+                          <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                              <a aria-label="Previous" class="page-link">
+                                  <span aria-hidden="true">›</span>
+                              </a>
+                          </li>
+
+
+                          <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                              <a aria-label="Next" class="page-link">
+                                  <span aria-hidden="true">»</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </nav>
+                  <div class="m-0 row pagesize">
+                      <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                      <div class="col-md-6 p-0">
+                          <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getMakerByStatus(quarter,year, tt)">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="250">250</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                   </select>
+                      </div>
+                  </div>
+              </td>
+          </tr>
+      </tfoot>
+     
+  </table>
+
+  <div class="row">
+      <div class="col-md-12 text-center">
+        
+        <button type="submit" class="btn btn-success" [disabled]="checkedData.length==0">Submit</button>
+          <!-- <button type="submit" class="btn btn-info" (click)="export()">Download Excel</button> -->
+      </div>
+  </div>
+
+  <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+</form>
+
+<!-- checkerRecord -->
+<form #f="ngForm" name="form"  *ngIf="isChecker" >
+    <table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+        <thead class="sticky-top blue">
+            <tr>
+                <th class="bg-tb-head">
+                    <input type="checkbox" name="checkedAll" *ngIf="!isSubmited" [(ngModel)]="checkedAll" (change)="checkAll()">
+                </th>
+                <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.sort?head.name:''" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.width }">{{head.title}}
+                    <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                    </mdb-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            <ng-container *ngFor="let itm of data; let i = index">
+                <tr  class="bg-white" [ngClass]="itm.rejected?'borderColorRejected':'borderColorPending'">
+                    <ng-container>
+                        <td scope="row">
+                            <input type="checkbox" *ngIf="!isSubmitted" name="checked{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                            <span *ngIf="!itm.rejected && !isSubmitted"  class="pending">Pending</span>
+                            <span *ngIf="itm.rejected && !isSubmitted" [ngClass]="{ 'rejected': itm.rejected}" class="rejected">Rejected</span>
+                            <!-- <span *ngIf="isSubmited"  class="approved"></span> -->
+                        </td>
+                        <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                        <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                        <td scope="row" [title]="itm.dctDepartment">{{itm.dctDepartment}}</td>
+                        <td scope="row" [title]="itm.dctUnit"> {{itm.dctUnit}}</td>
+  
+                        <td scope="row" [title]="itm.systemValue">{{itm.systemValue|twoDecimals}}</td>
+                        <td scope="row">
+                            {{itm.lastQuarterValue | number : '1.2-2' | noComma}}
+                        </td>
+                        <td scope="row">
+                            {{itm.lastQuarterOfLastYearValue | number : '1.2-2'| noComma}}
+                        </td>
+                        <td scope="row">
+                            {{itm.currentOwner}}
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+            <tr>
+                <td colspan="12" style="position: relative;">
+                    <nav>
+                        <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                            <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+  
+                            <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">‹</span>
+                                </a>
+                            </li>
+                            <ng-container *ngFor="let page of pages;let i=index;">
+                                <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                    <a class="page-link" [ngClass]="activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                                </li>
+                            </ng-container>
+                            <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Previous" class="page-link">
+                                    <span aria-hidden="true">›</span>
+                                </a>
+                            </li>
+  
+  
+                            <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                                <a aria-label="Next" class="page-link">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="m-0 row pagesize">
+                        <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                        <div class="col-md-6 p-0">
+                            <select [(ngModel)]="size" name="size" class="custom-select" (change)="activePage=0;getCheckerByStatus(quarter,year, tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <!-- <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="9">
+                <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination>
+            </td>
+        </tr>
+    </tfoot> -->
+    </table>
+  
+    <div class="row">
+        <div class="col-md-12 text-center">
+          <button type="Reject" class="btn btn-danger"  [disabled]="checkedData.length==0" (click)="rejectData(f.form)">Reject</button>
+          <button type="submit" class="btn btn-success" [disabled]="checkedData.length==0" (click)="approveData(f.form)">Approve</button>
+            <!-- <button type="submit" class="btn btn-info" (click)="export()">Download Excel</button> -->
+        </div>
+    </div>
+  
+    <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+  </form>
+
+
+
+<!-- <app-checker-data  *ngIf="isChecker" #checker [quarter]="quarter" [tt]="tt" [year]="year" (checkerEvent)="info.getInfoAll(quarter,year,tt);maker.getMakerAll(quarter,year,tt)"></app-checker-data> -->
+
+<!-- <app-info-data #info [quarter]="quarter" [tt]="tt" [year]="year"></app-info-data> -->
+
+<!-- <app-submitted-summary *ngIf="isSubmited" #submited [quarter]="quarter" [tt]="tt" [year]="year"></app-submitted-summary> -->
+
+

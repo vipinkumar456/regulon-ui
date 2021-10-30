@@ -1,0 +1,715 @@
+<!-- <div class=" modal-primary modal-content m-0">
+  <div class="modal-header">
+      <h3 class="modal-title m-0">{{heading}}</h3>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <div class="modal-body">
+      <form #f="ngForm" class="tranche3editForm" name="form">
+        <div class="container">
+          <div *ngIf="type=='maker'">
+            <div  class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">DCT</label>
+                        <p>{{data.dctNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Department</label>
+                        <p>{{data.dctDepartment}}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">Units</label>
+                      <p>{{data.dctUnit}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">System Value</label>
+                      <p>{{data.systemValue}}</p>
+                  </div>
+              </div>
+            </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">DCT Description	</label>
+                      <p>{{data.dctDescription}}</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" style="overflow: visible;position: relative;" [ngStyle]="{'padding':data.editable?' 0 .5rem !important':'0.3rem .5rem'}" [title]="!data.editable?'This DCT is non editable':''">
+                        <label class="form-col-form-label editLbl" for="inputvalue">Input Value</label>
+                        <input class="form-control" *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='INR'||data.dctUnit=='INR lakh'||data.dctUnit=='INR Lakh'||data.dctUnit=='INRLakh'||data.dctUnit=='Number( in %)'||data.dctUnit=='Number (Percentage)'||data.dctUnit=='Number(in bps)')"
+                            appOnlyDecimals [allowDecimal]="true" type="text" class="trancheComments" name="inputValue" #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true" [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <input *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='Number'||data.dctUnit=='Number (integer)')" appOnlyNumbers type="text" class="trancheComments" name="inputValue" #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true"
+                            [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <input *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='Time ( in Hours )'||data.dctUnit=='Time ( in Mins )'||data.dctUnit=='Time ( in Years )'||data.dctUnit=='Time (in Years)')" type="text" class="trancheComments" name="inputValue"
+                            #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true" appTime pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <span *ngIf="!data.editable && !data.dctInputTypeValue">{{data.systemValue}}</span>
+                        <a (click)="openPop($event,data)" *ngIf="data.dctInputTypeValue" class="text-primary cursor-pointer customToolTip">Input Value</a>
+                        <div class="toolContent" *ngIf="data.popopen" (click)="clickPop($event)">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 comments">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" style="display: block;" for="comments">Comments</label>
+                        <textarea maxlength="3000" class="form-control"  style="width: 100%;" id="comments" name="comments" #comments="ngModel" [(ngModel)]="data.comments" rows="5"  [required]="(data.systemValue!=data.inputValue)" [ngClass]="{ 'is-invalid':comments.invalid }"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row fileCol">
+              <div class="col-md-4 ">
+                <label class="form-col-form-label editLbl" style="display: block;" for="comments">Upload Documents</label>
+                <input type="file" id="myFile" name="filename">
+                <input type="file" #fileInput  (change)="uploadFile()" />
+                  <input type="file" class="form-control" #fileInput (change)="uploadFile()">
+                  <button class="btn btn-primary fileBtn">Upload File</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div *ngIf="type!='maker'">
+            <div  class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">DCT</label>
+                        <p>{{data.dctNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Department</label>
+                        <p>{{data.dctDepartment}}</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">Units</label>
+                      <p>{{data.dctUnit}}</p>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">System Value</label>
+                      <p>{{data.systemValue}}</p>
+                  </div>
+              </div>
+            </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">DCT Description	</label>
+                      <p>{{data.dctDescription}}</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" style="overflow: visible;position: relative;" [ngStyle]="{'padding':data.editable?' 0 .5rem !important':'0.3rem .5rem'}" [title]="!data.editable?'This DCT is non editable':''">
+                        <label class="form-col-form-label editLbl" for="inputvalue">Input Value</label>
+                        <input type="text" class="form-control" *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='INR'||data.dctUnit=='INR lakh'||data.dctUnit=='INR Lakh'||data.dctUnit=='INRLakh'||data.dctUnit=='Number( in %)'||data.dctUnit=='Number (Percentage)'||data.dctUnit=='Number(in bps)')"
+                            appOnlyDecimals [allowDecimal]="true"   name="inputValue" #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true" [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <input *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='Number'||data.dctUnit=='Number (integer)')" appOnlyNumbers type="text" class="trancheComments" name="inputValue" #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true"
+                            [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <input *ngIf="data.editable && !data.dctInputTypeValue && (data.dctUnit=='Time ( in Hours )'||data.dctUnit=='Time ( in Mins )'||data.dctUnit=='Time ( in Years )'||data.dctUnit=='Time (in Years)')" type="text" class="trancheComments" name="inputValue"
+                            #inputValue="ngModel" [(ngModel)]="data.inputValue" required="true" appTime pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$" [ngClass]="{ 'is-invalid': f.submitted && inputValue.invalid }">
+                        <span *ngIf="!data.editable && !data.dctInputTypeValue">{{data.systemValue}}</span>
+                        <a (click)="openPop($event,data)" *ngIf="data.dctInputTypeValue" class="text-primary cursor-pointer customToolTip">Input Value</a>
+                        <div class="toolContent" *ngIf="data.popopen" (click)="clickPop($event)">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 comments">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" style="display: block;" for="comments">Comments</label>
+                        <textarea maxlength="3000" class="form-control"  style="width: 100%;" id="comments" name="comments" #comments="ngModel" [(ngModel)]="data.comments" rows="5"  [required]="(data.systemValue!=data.inputValue)" [ngClass]="{ 'is-invalid':comments.invalid }"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row fileCol">
+              <div class="col-md-4 ">
+                <label class="form-col-form-label editLbl" style="display: block;" for="comments">Upload Documents</label>
+                <input type="file" id="myFile" name="filename">
+                <input type="file" #fileInput  (change)="uploadFile()" />
+                  <input type="file" class="form-control" #fileInput (change)="uploadFile()">
+                  <button class="btn btn-primary fileBtn">Upload File</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div *ngIf="type!='maker'" class="row">
+              <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">DCT</label>
+                      <p>{{data.dctNumber}}</p>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">Deprtment</label>
+                      <p>{{data.dctDepartment}}</p>
+                  </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">DCT Description	</label>
+                      <p>{{data.dctDescription}}</p>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">Units</label>
+                      <p>{{data.dctUnit}}</p>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="description">System Value</label>
+                      <p>{{data.systemValue}}</p>
+                  </div>
+              </div>
+              <div class="col-md-2">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="inputvalue">Input Value</label>
+                      <p>{{data.inputValue}}</p>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label class="form-col-form-label editLbl" for="comments">Comments</label>
+                      <p>{{data.comments}}</p>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-col-form-label mr-1 editLbl" for="description">Documents</label>
+                        <label class="form-col-form-label text-info mr-1" for="description" *ngIf="data.fileID">{{data.fileName}}
+                            <i class="fa fa-trash text-danger m-2 cursor-pointer" *ngIf="data.fileID" [title]="data.fileName" (click)="delete(data)"></i>
+                        </label>
+                        <button type="submit" formn="ngForm" class="btn btn-info mr-1" color="primary" *ngIf="data.fileName" [title]="data.fileName" (click)="download(data)">Download</button>
+                        <button type="submit" formn="ngForm" class="btn btn-primary" color="primary" (click)="selectFiles(data)" *ngIf="type=='maker'">Upload</button>
+                        <i class="text-primary fa fa-upload" title="Upload Document" (click)="selectFiles(itm)"></i>
+                        <i class="fa fa-download text-success"  ></i>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+      </form>
+      <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+  </div>
+  <div class="row p-2">
+      <div class="col-md-2">
+          <button type="button" class="btn btn-info float-left" color="danger" (click)="previous()">Previous</button>
+      </div>
+      <div class="col-md-8 text-center">
+          <button type="submit" formn="ngForm" class="btn btn-primary mr-2" color="primary" (click)="approveData(f)" *ngIf="type=='checker'||type=='maker'">Approve</button>
+          <button type="button" class="btn btn-warning mr-2" color="danger" (click)="onNoClick()">Close</button>
+          <button type="submit" formn="ngForm" class="btn btn-danger" (click)="rejectData()" *ngIf="type=='checker'">Reject</button>
+
+      </div>
+      <div class="col-md-2">
+          <button type="button" class="btn btn-info float-right" color="danger" (click)="nextItm()">Next</button>
+      </div>
+
+
+  </div>
+  <div class="text-center">
+    <button type="submit" form="ngForm" class="btn btn-primary mr-2 approveBtn" color="primary" (click)="approveData(f)" *ngIf="type=='checker'||type=='maker'">Approve</button>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="modal-content modal-dialog modal-notify modal-primary m-0">
+    <div class="modal-header d-flex justify-content-center">
+        <h3 class="heading m-0">{{heading}}</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form #f="ngForm" class="tranche3editForm" name="form">
+
+            <div *ngIf="type=='maker'">
+              <div  class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Risk</label>
+                        <input type="text" class="form-control" value={{data.riskType}} disabled>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Parameter No.</label>
+                        <input type="text" class="form-control" value={{data.dctNumber}} disabled>
+                    </div>
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="form-col-form-label editLbl" for="description">Control Parameter	</label>
+                          <input type="text" class="form-control" value={{data.dctDescription}} disabled>
+                      </div>
+                  </div>
+                </div>
+
+
+                <details>
+                    <summary>Remarks1</summary>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Objective</label>
+                              <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" id="description" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Document</label>
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Type Of Control</label>
+                              <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                  <option value="Manual">Manual</option>
+                                  <option value="Semi-Automatic">Semi-Automatic</option>
+                                  <option value="Automatic">Automatic</option>
+                              </select> -->
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Design And Assessment</label>
+                              <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                  rows="1"></textarea>
+                        </div>
+                      </div>
+                </details>
+
+
+                <details>
+                  <summary>Remarks2</summary>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Objective</label>
+                              <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Document</label>
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Type Of Control</label>
+                              <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                  <option value="Manual">Manual</option>
+                                  <option value="Semi-Automatic">Semi-Automatic</option>
+                                  <option value="Automatic">Automatic</option>
+                              </select> -->
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Design And Assessment</label>
+                              <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                  rows="1"></textarea>
+                        </div>
+                      </div>
+                </details>
+
+                <details>
+                  <summary>Remarks3</summary>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Objective</label>
+                              <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Document</label>
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Type Of Control</label>
+                              <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                  <option value="Manual">Manual</option>
+                                  <option value="Semi-Automatic">Semi-Automatic</option>
+                                  <option value="Automatic">Automatic</option>
+                              </select> -->
+                              <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                              <label class="form-col-form-label editLbl" for="description">Control Design And Assessment</label>
+                              <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                  rows="1"></textarea>
+                        </div>
+                      </div>
+                </details>
+            </div>
+
+            <div *ngIf="type!='maker'">
+              <div  class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Risk</label>
+                        <p>{{data.riskType}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Parameter No.</label>
+                        <p>{{data.dctNumber}}</p>
+                    </div>
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label class="form-col-form-label editLbl" for="description">Control Parameter	</label>
+                          <p>{{data.dctDescription}}</p>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#remarks1" aria-expanded="true" aria-controls="collapseOne">
+                        <h5 class="mb-0">
+                          Remarks 1
+                        </h5>
+                      </div>
+
+                      <div id="remarks1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label class="editLbl" for="description">Control Objective	</label>
+                                <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label editLbl" for="description">Control Document</label>
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label editlbl" for="description">Type Of Control</label>
+                                  <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                      <option value="Manual">Manual</option>
+                                      <option value="Semi-Automatic">Semi-Automatic</option>
+                                      <option value="Automatic">Automatic</option>
+                                  </select> -->
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label editLbl" for="description">Control Design And Assessment</label>
+                                  <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                      rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#remarks2" aria-expanded="true" aria-controls="collapseOne">
+                        <h5 class="mb-0">
+                          Remarks 2
+                        </h5>
+                      </div>
+
+                      <div id="remarks2" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Objective</label>
+                                  <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Document</label>
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Type Of Control</label>
+                                  <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                      <option value="Manual">Manual</option>
+                                      <option value="Semi-Automatic">Semi-Automatic</option>
+                                      <option value="Automatic">Automatic</option>
+                                  </select> -->
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Design And Assessment</label>
+                                  <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                      rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#remarks3" aria-expanded="true" aria-controls="collapseOne">
+                        <h5 class="mb-0">
+                          Remarks 1
+                        </h5>
+                      </div>
+
+                      <div id="remarks3" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Objective</label>
+                                  <textarea maxlength="3000" name="remark1ControlObjective" #remark1ControlObjective="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlObjective.invalid }" [(ngModel)]="data.remark1ControlObjective" rows="1"></textarea>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Document</label>
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Type Of Control</label>
+                                  <!-- <select name="remark1TypeOfControl" class="form-control" #remark1TypeOfControl="ngModel" [required]="data.checked" [ngClass]="{ 'is-invalid': submitted && remark1TypeOfControl.invalid }" [(ngModel)]="data.remark1TypeOfControl">
+                                      <option value="Manual">Manual</option>
+                                      <option value="Semi-Automatic">Semi-Automatic</option>
+                                      <option value="Automatic">Automatic</option>
+                                  </select> -->
+                                  <textarea maxlength="3000" name="remark1ControlDocument" #remark1ControlDocument="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDocument.invalid }" [(ngModel)]="data.remark1ControlDocument" rows="1"></textarea>
+
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-col-form-label" for="description">Control Design And Assessment</label>
+                                  <textarea maxlength="3000" name="remark1ControlDesignAssement" #remark1ControlDesignAssement="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark1ControlDesignAssement.invalid }" [(ngModel)]="data.remark1ControlDesignAssement"
+                                      rows="1"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+
+              <div class="row fileCol">
+                <div class="col-md-4 ">
+                  <label class="form-col-form-label editLbl" style="display: block;" for="comments">Upload Documents</label>
+                  <!-- <input type="file" id="myFile" name="filename"> -->
+                  <!-- <input type="file" #fileInput  (change)="uploadFile()" /> -->
+                    <input type="file" class="form-control" #fileInput (change)="uploadFile()">
+                    <button class="btn btn-primary fileBtn">Upload File</button>
+                </div>
+              </div>
+
+
+
+
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label" for="description">Remarks 2 Review and Exceptions</label>
+                        <textarea maxlength="3000" name="remark2" #remark2="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark2.invalid }" [(ngModel)]="data.remark2" rows="1"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label" for="description">Remarks 3 Change in controls</label>
+                        <textarea maxlength="3000" name="remark3" #remark3="ngModel" class="form-control" [required]="edit" [ngClass]="{ 'is-invalid': submitted && remark3.invalid }" [(ngModel)]="data.remark3" rows="1"></textarea>
+                    </div>
+                </div> -->
+            </div>
+            <!-- <div *ngIf="type!='maker'" class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Risk</label>
+                        <p>{{data.riskType}}</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Param No</label>
+                        <p>{{data.dctNumber}}</p>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Control Parameter	</label>
+                        <p>{{data.dctDescription}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Control Objective</label>
+                        <p>{{data.remark1ControlObjective}}</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Type Of Control</label>
+                        <p>{{data.remark1TypeOfControl}}</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Control Document</label>
+                        <p>{{data.remark1ControlDocument}}</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Control Design And Assessment</label>
+                        <p>{{data.remark1ControlDesignAssement}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Remarks 2 Review and Exceptions</label>
+                        <p>{{data.remark2}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-col-form-label editLbl" for="description">Remarks 3 Change in controls</label>
+                        <p>{{data.remark3}}</p>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="form-col-form-label mr-1 editLbl" for="description">Documents</label>
+                        <label class="form-col-form-label text-info mr-1" for="description" *ngIf="data.fileID">{{data.fileName}}
+                            <i class="fa fa-trash text-danger m-2 cursor-pointer" *ngIf="data.fileID" [title]="data.fileName" (click)="delete(data)"></i>
+                        </label>
+                        <button type="submit" formn="ngForm" class="btn btn-info mr-1" color="primary" *ngIf="data.fileName" [title]="data.fileName" (click)="download(data)">Download</button>
+                        <button type="submit" formn="ngForm" class="btn btn-primary" color="primary" (click)="selectFiles(data)" *ngIf="type=='maker'">Upload</button>
+                        <i class="text-primary fa fa-upload" title="Upload Document" (click)="selectFiles(itm)"></i>
+                        <i class="fa fa-download text-success"  ></i>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row mt-3">
+              <div class="col-md-4 ">
+                <label class="form-col-form-label editLbl" style="display: block;" for="comments">Upload Documents</label>
+                <!-- <input type="file" id="myFile" name="filename"> -->
+                <!-- <input type="file" #fileInput  (change)="uploadFile()" /> -->
+                  <input type="file" class="form-control" #fileInput (change)="uploadFile()">
+                  <button class="btn btn-primary fileBtn">Upload File</button>
+              </div>
+            </div>
+          </form>
+        <!-- <input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" /> -->
+        <div class="text-center">
+          <button type="submit" form="ngForm" class="btn approveBtn mr-2" color="primary" (click)="approveData(f)" *ngIf="type=='checker'||type=='maker'">Approve</button>
+        </div>
+    </div>
+    <!-- <div class="row p-2">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info float-left" color="danger" (click)="previous()">Previous</button>
+        </div>
+        <div class="col-md-8 text-center">
+            <button type="submit" formn="ngForm" class="btn btn-primary mr-2" color="primary" (click)="approveData(f)" *ngIf="type=='checker'||type=='maker'">Approve</button>
+            <button type="button" class="btn btn-warning mr-2" color="danger" (click)="onNoClick()">Close</button>
+            <button type="submit" formn="ngForm" class="btn btn-danger" (click)="rejectData()" *ngIf="type=='checker'">Reject</button>
+
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info float-right" color="danger" (click)="nextItm()">Next</button>
+        </div>
+
+
+    </div> -->
+</div>

@@ -1,0 +1,104 @@
+<form role="form" name="form" (ngSubmit)="f.form.valid && onSubmit(f.form)" #f="ngForm" novalidate>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="form-group" *ngIf="!dct.dctID">
+                <label for="dctNumber" class="m-0">DCT Number</label>
+                <input type="text" name="dctNumber" id="dctNumber" #dctNumber="ngModel" required class="form-control input-lg" [(ngModel)]="dct.dctNumber" placeholder="DCT Number" [ngClass]="{ 'is-invalid': f.submitted && dctNumber.invalid }">
+                <div *ngIf="f.submitted && dctNumber.invalid" class="invalid-feedback">
+                    <div *ngIf="dctNumber.errors.required">DCT Number is required</div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="dct.dctID">
+                <label for="dctNumber" class="m-0">DCT Number</label>
+                <div for="form-control input-lg" class="m-0"><b>{{dct.dctNumber}}</b></div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <label for="department" class="m-0">Department</label>
+            <select class="form-control" id="department" required name="department" [(ngModel)]="dct.department" #department="ngModel" [ngClass]="{ 'is-invalid': f.submitted && department.invalid }">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let dct of dctDepts" [value]="dct">{{dct}}</option>
+            </select>
+            <div *ngIf="f.submitted && department.invalid" class="invalid-feedback">
+                <div *ngIf="department.errors.required">Department is required</div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <label for="trancheType" class="m-0">Tranche Type</label>
+            <select class="form-control" id="trancheType" required name="trancheType" [(ngModel)]="dct.trancheType" #trancheType="ngModel"  (change)="trancheTypeChange()" [ngClass]="{ 'is-invalid': f.submitted && trancheType.invalid }">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let tranche of trancheTypes" [value]="tranche">{{tranche}}</option>
+            </select>
+            <div *ngIf="f.submitted && trancheType.invalid" class="invalid-feedback">
+                <div *ngIf="trancheType.errors.required">Tranche Type is required</div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3" *ngIf="isRiskType">
+            <label for="riskType" class="m-0">Risk Type</label>
+            <select class="form-control" id="riskType" name="riskType" [(ngModel)]="dct.riskType" #riskType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && riskType.invalid }">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let riskType of riskTypes" [value]="riskType">{{riskType}}</option>
+            </select>
+            <div *ngIf="f.submitted && riskType.invalid" class="invalid-feedback">
+                <div *ngIf="riskType.errors.required">Risk Type is required</div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <label for="dataUnit" class="m-0">Data Unit</label>
+            <select class="form-control" id="dataUnit" required name="dataUnit" [(ngModel)]="dct.dataUnit" #dataUnit="ngModel" [ngClass]="{ 'is-invalid': f.submitted && dataUnit.invalid }">
+                <option value="" disabled>Select</option>
+                <option *ngFor="let unit of dctUnits" [value]="unit">{{unit}}</option>
+            </select>
+            <div *ngIf="f.submitted && dataUnit.invalid" class="invalid-feedback">
+                <div *ngIf="dataUnit.errors.required">Tranche Type is required</div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <label for="inputTypeValue" class="m-0">Input Type Value</label>
+            <input type="number" name="inputTypeValue" id="inputTypeValue" #inputTypeValue="ngModel" class="form-control input-lg" [(ngModel)]="dct.inputTypeValue" placeholder="Input Type Value">
+            <!-- <div *ngIf="f.submitted && inputTypeValue.invalid" class="invalid-feedback">
+                <div *ngIf="inputTypeValue.errors.required">DCT Number is required</div>
+            </div> -->
+        </div>
+
+        <!-- <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group">
+                <label for="dataUnit" class="m-0">Data Unit</label>
+                <input type="text" name="dataUnit" id="dataUnit" #dataUnit="ngModel" required class="form-control input-lg" [(ngModel)]="dct.dataUnit" placeholder="Data Unit" [ngClass]="{ 'is-invalid': f.submitted && dataUnit.invalid }">
+                <div *ngIf="f.submitted && dataUnit.invalid" class="invalid-feedback">
+                    <div *ngIf="dataUnit.errors.required">Data Unit is required</div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="form-group mb-2">
+                <label class="form-col-form-label m-0" for="desc">Description</label>
+                <textarea rows="3" class="form-control" name="desc" [(ngModel)]="dct.dctDescription"></textarea>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3" style="display: flex;">
+            <div class="form-check mt-4 mr-4">
+                <input class="form-check-input" name="editable" type="checkbox" value="true" id="editable" [(ngModel)]="dct.editable">
+                <label class="form-check-label" for="editable">
+                    Editable
+                </label>
+            </div>
+            <div class="form-check mt-4">
+                <input class="form-check-input" name="active" type="checkbox" value="true" id="active" [(ngModel)]="dct.active">
+                <label class="form-check-label" for="active">
+                    Active
+                </label>
+            </div>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-6 col-md-2">
+            
+        </div> -->
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger ml-2" (click)="cancel()">Back</button>
+
+        </div>
+    </div>
+
+</form>

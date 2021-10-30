@@ -1,0 +1,317 @@
+<div class="page-title">
+  <h3 class=" d-inline">Tranche: {{tranche}} </h3>
+  <p class="d-inline">( Quarter : {{quarter}}, Financial Year : {{year}})</p>
+</div>
+
+<div class="filter-container">
+  <div class="row">
+    <div class="col-md-4 filter">
+      <p>Filter By :
+      </p>
+      <select class="browser-default form-control statusSelect float-left" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" (change)="gotoStatus()">
+        <option selected disabled value="null" >Select Risk Type</option>
+        <option *ngFor="let selectStatus of status" [ngValue]="selectStatus">{{selectStatus.status}}</option>
+      </select>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6 text-right ">
+      <!-- <p class="approved d-inline">Approved</p>
+      <p class="pending d-inline ml-3">Pending</p>
+      <p class="rejected d-inline ml-3">Rejected</p> -->
+      <ul class="status">
+        <li class="approved">Approved</li>
+        <li class="pending ml-3">Pending</li>
+        <li class="rejected ml-3">Rejected</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <!-- <div class="col-md-2">
+      <select class="browser-default custom-select labelSelect mt-0 mr-1" name="year" [(ngModel)]="year">
+          <option value="0" disabled>Select Year</option>
+          <option value="2021">2021-2022</option>
+          <option value="2020">2020-2021</option>
+          <option value="2019">2019-2020</option>
+          <option value="2018">2018-2019</option>
+          <option value="2017">2017-2018</option>
+      </select>
+  </div>
+  <div class="col-md-2">
+      <select class="browser-default custom-select labelSelect mt-0" id="quarter" name="quarter" [(ngModel)]="quarter">
+          <option value="0" disabled>Select Quarter</option>
+          <option value="1">Quarter #1</option>
+          <option value="2">Quarter #2</option>
+          <option value="3">Quarter #3</option>
+          <option value="4">Quarter #4</option>
+          <option value="5">Quarter #Audited</option>
+      </select>
+  </div> -->
+  <!-- <div class="col-md-1">
+      <button (click)="search()" class="btn btn-primary btn-obc" style="width:inherit;">Search</button>
+  </div> -->
+  <div class="col-md-2">
+    <p class="show">Show</p>
+    <select class="browser-default custom-select numSelect">
+      <option>10</option>
+    </select>
+    <p class="entries">Entries</p>
+  </div>
+  <div class="col-md-2"></div>
+   <!-- <div class="col-md-1"></div> -->
+  <div class="col-md-2"></div>
+  <div class="col-md-2 ">
+      <div class="btn-group text-right" dropdown>
+          <button type="button" class="btn btn-obc" dropdownToggle style="width:inherit;">
+            <i class="icon-download"></i> Download Template
+          </button>
+          <!-- <div class="dropdown-menu dropdown-menu-right dropExport" *dropdownMenu>
+              <a class="dropdown-item" (click)="export('.xlsx')">Excel</a>
+              <a class="dropdown-item" (click)="export('.csv')">CSV</a>
+          </div> -->
+      </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2" style="padding-left: 60px;">
+      <button type="button" class="btn btn-upload   p-2" dropdownToggle style="width:inherit;">
+        <i class="icon-download"></i> Upload
+      </button>
+      <!-- <div class="dropdown-menu dropdown-menu-right dropExport" *dropdownMenu>
+          <a class="dropdown-item" (click)="export('.xlsx')">Excel</a>
+          <a class="dropdown-item" (click)="export('.csv')">CSV</a>
+      </div> -->
+  </div>
+</div>
+
+<app-maker2-data #maker *ngIf="isMaker"  [quarter]="quarter" [tt]="tt" [year]="year" [rf]="rf" (myEvent)="info.getInfoAll(quarter,year,tt)"></app-maker2-data>
+
+
+<app-checker2-data #checker *ngIf="isChecker"  [quarter]="quarter" [tt]="tt" [year]="year" (checkerEvent)="info.getInfoAll(quarter,year,tt);maker.getMakerAll(quarter,year,tt)"></app-checker2-data>
+
+<!-- <app-info-data #info [quarter]="quarter" [tt]="tt" [year]="year"></app-info-data> -->
+
+<!-- <app-submitted-summary *ngIf="isSubmited" #submited [quarter]="quarter" [tt]="tt" [year]="year"></app-submitted-summary> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form class="quarter">
+    <div class="row">
+        <div class="col-md-6 text-center mt-2">
+            <h3 class="text-obc m-0">Tranche :{{tt}}, Quarter : {{quarter}}, Financial Year : {{year}} </h3>
+        </div>
+        <div class="col-md-3 float-right" style="display: inherit;">
+            <select class="browser-default custom-select labelSelect mt-0 mr-1" name="year" [(ngModel)]="year">
+                <option value="0" disabled>Select Year</option>
+                <option *ngFor="let qt of quarters" [value]="qt.year">{{qt.year}}</option>
+                <option value="2021">2021-2022</option>
+                <option value="2020">2020-2021</option>
+                <option value="2019">2019-2020</option>
+                <option value="2018">2018-2019</option>
+                <option value="2017">2017-2018</option>
+            </select>
+             </div>
+        <div class="col-md-2 float-right">
+            <select class="browser-default custom-select labelSelect mt-0" id="quarter" name="quarter" [(ngModel)]="quarter">
+                <option value="0" disabled>Select Quarter</option>
+                <option value="1">Quarter #1</option>
+                <option value="2">Quarter #2</option>
+                <option value="3">Quarter #3</option>
+                <option value="4">Quarter #4</option>
+                <option *ngFor="let qt of quarters" [value]="qt.quarter">Quarter #{{qt.quarter}}</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 float-right text-right p-0" style="display: inline-flex;">
+            <button (click)="search()" style="width:inherit;" class="btn btn-primary btn-obc mr-1">Search</button>
+            <div class="btn-group float-right ml-1" dropdown>
+                <button type="button" class="btn btn-obc dropdown-toggle p-0 text-white" style="width:inherit;" dropdownToggle>
+                  <i class="icon-cloud-download"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropExport" *dropdownMenu>
+                    <a class="dropdown-item" (click)="download()">Donwload template for Tranche {{tt}}</a>
+                    <a class="dropdown-item" (click)="export('.csv')">CSV</a>
+                    <a class="dropdown-item" (click)="export('.xbrl')">XBRL</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-obc ml-1" style="width:inherit;" (click)="selectFiles()">Upload</button>
+        </div>
+
+    </div>
+
+</form>
+<tabset>
+    <tab heading="{{action}}" [active]="ativeTab=='maker'||ativeTab=='checker'">
+        <app-maker2-data #maker [quarter]="quarter" [tt]="tt" [year]="year" (myEvent)="info.getInfoAll(quarter,year,tt)"></app-maker2-data>
+        <app-checker2-data #checker [quarter]="quarter" [hidden]="isMaker" [tt]="tt" [year]="year" (checkerEvent)="info.getInfoAll(quarter,year,tt);maker.getMakerAll(quarter,year,tt)"></app-checker2-data>
+    </tab>
+    <tab heading="Status" [active]="ativeTab=='status'">
+        <app-info2-data #info [quarter]="quarter" [tt]="tt" [year]="year"></app-info2-data>
+    </tab>
+</tabset>
+<input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" />
+<br> -->
+
+
+<!-- <div class="row">
+    <div class="col-md-7">
+        <h3 class="text-obc">Tranch 2,{{quarter}}, Financial Year {{year}} </h3>
+    </div>
+    <div class="col-md-2 float-right">
+        <select class="browser-default custom-select labelSelect mt-0" name="year" [(ngModel)]="year" (change)="searchItems()">
+            <option value="0" disabled>Select Year</option>
+            <option value="2020">2019-2020</option>
+            <option value="2019">2018-2019</option>
+            <option value="2018">2017-2018</option>
+            <option value="2017">2016-2017</option>
+        </select>
+    </div>
+    <div class="col-md-2 float-right">
+        <select class="browser-default custom-select labelSelect mt-0" id="quarter" name="quarter" [(ngModel)]="quarter" (change)="searchItems()">
+            <option value="0" disabled>Select Quarter</option>
+            <option value="1">Quarter #1</option>
+            <option value="2">Quarter #2</option>
+            <option value="3">Quarter #3</option>
+            <option value="4">Quarter #4</option>
+        </select>
+    </div>
+    <div class="col-md-1 text-right">
+        <button class="btn btn-primary btn-obc" style="line-height: 15px;">Upload</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control" placeholder="Search" autocomplete="search">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="searchItems()">
+                <option value="" disabled>Please select</option>
+                <option value="department">Department</option>
+                <option value="description">DCT Description</option>
+            </select>
+            <div class="input-group-prepend" style="cursor: pointer;" (click)="searchItems()">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table trancheTable z-depth-1" stickyHeader="true" hover="true" striped="true">
+    <thead class="sticky-top blue">
+        <tr>
+            <th class="bg-tb-head">
+                <input type="checkbox" [(ngModel)]="checkedAll" (change)="checkAll()">
+            </th>
+            <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.name" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.name=='file'||head.name=='dctNumber' ? '120px' : '' }">{{head.title}}
+                <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                </mdb-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr>
+                <ng-container>
+                    <td scope="row">
+                        <input type="checkbox" attr.name="checked+{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                    </td>
+                    <td scope="row" [title]="itm.dctNumber">{{itm.dctNumber}}</td>
+                    <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                    <td scope="row" [title]="itm.remark1">{{itm.remark1}}</td>
+
+                    <td scope="row" [title]="itm.remark2">{{itm.remark2}}</td>
+                    <td scope="row" [title]="itm.remark3">
+                        {{itm.remark3}}
+                    </td>
+
+                    <td scope="row">
+                        <i class="text-primary fa fa-upload" title="Upload Document" (click)="selectFiles(itm)"></i>
+                        <i class="fa fa-download text-success" *ngIf="itm.fileName" [title]="itm.fileName" (click)="download(itm)"></i>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="10" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                        <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pages;let i=index;">
+                            <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                <a class="page-link" [ngClass]="activePage==i?'text-obc':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                    <div class="col-md-6 p-0">
+                        <select [(ngModel)]="size" class="custom-select" (change)="activePage=0;getMakerAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-success btn-obc" [disabled]="checkedData.length==0" (click)="approveData()">Approve</button>
+    </div>
+</div>
+<input type="file" #fileInput style="width: 100%;visibility: hidden; height: 0px;" (change)="uploadFile()" /> -->

@@ -1,0 +1,136 @@
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+
+            <input type="text" name="username" [(ngModel)]="searchText" class="form-control searchBox" placeholder="Search" autocomplete="search">
+            <select name="type" [(ngModel)]="searchType" style="max-width: 150px;" class="custom-select input-group-prepend" (change)="searchItems()">
+                <option value="" disabled>Please select</option>
+                <option value="department">Department</option>
+                <option value="description">DCT Description</option>
+            </select>
+            <div class="input-group-prepend" style="cursor: pointer;" (click)="searchItems()">
+                <span class="input-group-text"><i class="icon-magnifier"></i></span>
+            </div>
+        </div>
+    </div>
+</div> -->
+<table class="table trancheTable z-depth-1" mdbTable #tableEl2="mdbTable" stickyHeader="true" hover="true" striped="true">
+    <thead class="sticky-top blue">
+        <tr>
+            <!-- <th class="bg-tb-head">
+                <input type="checkbox" [(ngModel)]="checkedAll" (change)="checkAll()">
+            </th> -->
+            <th class="cursor-pointer" *ngFor="let head of headElements; let i = index" [mdbTableSort]="data" [sortBy]="head.sort?head.name:''" aria-controls="tableSortExample" scope="col" [ngStyle]="{'width': head.name=='lq'||head.name=='slq'||head.name=='inputValue'||head.name=='systemValue'||head.name=='currentOwner'||head.name=='unit' ? '150px' : '' }">{{head.title}}
+                <mdb-icon fa icon="sort fa" *ngIf="head.sort">
+                </mdb-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody #row>
+        <ng-container *ngFor="let itm of data; let i = index">
+            <tr mdbTableCol>
+                <ng-container>
+                    <!-- <td  scope="row">
+                        <input type="checkbox" attr.name="checked+{{i}}" [(ngModel)]="itm.checked" (change)="checkRecord(itm)">
+                    </td> -->
+                    <td scope="row" [title]="itm.dctNumber"><a (click)="edit(itm)" class="text-primary">{{itm.dctNumber}}</a></td>
+                    <td scope="row" [title]="itm.dctDescription">{{itm.dctDescription}}</td>
+                    <td scope="row" [title]="itm.dctUnit">{{itm.dctUnit}}</td>
+                    <td scope="row" [title]="itm.systemValue">{{itm.systemValue|twoDecimals}}</td>
+                    <td scope="row" [title]="itm.inputValue">
+                        <!-- <input type="text" attr.name="inputValue+{{i}}" [(ngModel)]="itm.inputValue"> -->
+                        {{itm.inputValue|twoDecimals}}
+                    </td>
+                    <td scope="row">
+                        <!-- <input type="text" attr.name="inputValue+{{i}}" [(ngModel)]="itm.inputValue"> -->
+                        {{itm.currentOwner}}
+                    </td>
+                    <td scope="row" [title]="itm.comments">
+                        <!-- <input type="text" attr.name="inputValue+{{i}}" [(ngModel)]="itm.inputValue"> -->
+                        {{itm.comments}}
+                    </td>
+                    <td scope="row">
+                        <!-- <a class="text-primary" *ngIf="!itm.lq" (click)="itm.lq=itm.systemValue">View</a> -->
+                        {{itm.lastQuarterValue | number : '1.2-2'| noComma}}
+                    </td>
+                    <td scope="row">
+                        <!-- <a class="text-primary" *ngIf="!itm.slq" (click)="itm.slq=itm.systemValue">View</a> -->
+                        {{itm.lastQuarterOfLastYearValue | number : '1.2-2'| noComma}}
+                    </td>
+                    <td scope="row" style="max-width: 100px;">
+                        <i class="fa fa-download text-success pointer" *ngIf="itm.fileName" [title]="itm.fileName" (click)="download(itm)"></i>
+                    </td>
+
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="12" style="position: relative;">
+                <nav>
+                    <ul class="pagination pagination-circle pg-blue d-flex flex-center" ng-reflect-klass="pagination pagination-circle p">
+                        <!-- <li class="ng-star-inserted">
+                            Page {{activePage+1}} of {{pager.totalPages}}
+                        </li> -->
+                        <li (click)="setPage(0)" class="page-item" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" (click)="setPage(activePage - 1)" [ngClass]="{disabled:activePage === 0}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+                        <ng-container *ngFor="let page of pages;let i=index;">
+                            <li class="page-item" *ngIf="i<activePage+3&&i>activePage-3">
+                                <a class="page-link" [ngClass]="activePage==i?'active':''" (click)="setPage(i)">{{i+1}}</a>
+                            </li>
+                        </ng-container>
+                        <li class="page-item" (click)="setPage(activePage + 1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+
+
+                        <li class="page-item" (click)="setPage(pager.totalPages-1)" [ngClass]="{disabled:activePage === pager.totalPages-1}">
+                            <a aria-label="Next" class="page-link">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="m-0 row pagesize">
+                    <label class="col-md-6 mt-2 p-0 col-form-label" for="select3">Page Size</label>
+                    <div class="col-md-6 p-0">
+                        <select [(ngModel)]="size" class="custom-select" (change)="activePage=0;getInfoAll(quarter, year,tt)">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                    </select>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <!-- <tfoot class="grey lighten-5 w-100">
+        <tr>
+            <td colspan="9">
+                <mdb-table-pagination [tableEl]="tableEl2" paginationAlign="" [searchDataSource]="data">
+                </mdb-table-pagination>
+            </td>
+        </tr>
+    </tfoot> -->
+</table>
+<!-- <div class="row">
+    <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-success btn-obc">Submit For Approval</button>
+    </div>
+</div> -->
